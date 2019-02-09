@@ -7,4 +7,9 @@ FactoryBot.define do
   trait :invalid do
     title { nil }
   end
+
+  trait :edit do
+    title { "New Title" }
+    body { "New Body" }
+  end
 end
