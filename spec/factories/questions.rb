@@ -4,11 +4,11 @@ FactoryBot.define do
     body { "MyText" }
   end
 
-  trait :invalid do
+  trait :invalid_question do
     title { nil }
   end
 
-  trait :edit do
+  trait :edit_question do
     title { "New Title" }
     body { "New Body" }
   end
