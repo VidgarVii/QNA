@@ -18,6 +18,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'pg'
 gem 'slim-rails'
+gem 'devise'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -66,6 +67,8 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '4.0.0.rc1'
   gem 'rails-controller-testing'
+  # save_and_open_page
+  gem 'launchy'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
