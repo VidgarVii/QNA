@@ -1,17 +1,19 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
+  def edit; end
+
   def create
     @answer = question.answers.new(answer_params)
     if @answer.save
-      redirect_to question_path(question)
+      redirect_to question_path(question), notice: 'Your answer successfully create.'
     else
-      redirect_to question_path(question), alert: "Body can't be blank"
+      redirect_to question_path(question), alert: "Body can't be blank!"
     end
   end
 
   def update
-    if answer.update(params[:body])
+    if answer.update(answer_params)
       redirect_to answer
     else
       render :edit
@@ -31,6 +33,6 @@ class AnswersController < ApplicationController
   helper_method :answer, :question
 
   def answer_params
-    params.permit(:body)
+    params.require(:answer).permit(:body)
   end
 end

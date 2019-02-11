@@ -8,6 +8,7 @@ feature 'User can create answer', "
   given(:question) { create(:question) }
 
   describe 'Authenticated user' do
+    given(:user) { create(:user) }
 
     background do
       sign_in(user)
@@ -15,7 +16,6 @@ feature 'User can create answer', "
       visit question_path(question)
     end
 
-    given(:user) { create(:user) }
     scenario 'asks a answer' do
       fill_in 'Body', with: 'New Answer!'
       click_on 'Answer'
