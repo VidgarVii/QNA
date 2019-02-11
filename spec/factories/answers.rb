@@ -4,8 +4,9 @@ FactoryBot.define do
   end
 
   factory :answer do
-    question
     body { 'MyText' }
+    question
+    association :author, factory: :user
   end
 
   trait :invalid_answer do

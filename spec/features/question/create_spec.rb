@@ -16,6 +16,7 @@ feature 'User can create question', "
     end
 
     given(:user) { create(:user) }
+
     scenario 'asks a question' do
       fill_in 'Title', with: 'Some Title'
       fill_in 'Body', with: 'Text'
@@ -24,6 +25,7 @@ feature 'User can create question', "
       expect(page).to have_content 'Your question successfully create.'
       expect(page).to have_content 'Some Title'
       expect(page).to have_content 'Text'
+      expect(page).to have_content  "author: #{user.email}"
     end
 
     scenario 'asks a question with errors' do

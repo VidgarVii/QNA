@@ -1,4 +1,5 @@
 h2 = question.title
+p "author: #{question.author.email}"
 p = question.body
 ul
   = render question.answers.select(&:persisted?)
