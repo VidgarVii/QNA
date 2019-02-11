@@ -28,6 +28,7 @@ feature 'User can create answer', "
       click_on 'Answer'
 
       expect(page).to have_content "Body can't be blank"
+      expect(page).to have_content "error(s) detected"
     end
 
   end
