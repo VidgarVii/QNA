@@ -4,14 +4,14 @@ class AnswersController < ApplicationController
   def create
     @answer = question.answers.new(answer_params)
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(question)
     else
-      render :new
+      redirect_to question_path(question), alert: "Body can't be blank"
     end
   end
 
   def update
-    if answer.update(answer_params)
+    if answer.update(params[:body])
       redirect_to answer
     else
       render :edit
@@ -31,6 +31,6 @@ class AnswersController < ApplicationController
   helper_method :answer, :question
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.permit(:body)
   end
 end

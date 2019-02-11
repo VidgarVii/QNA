@@ -5,7 +5,10 @@ feature 'User can see question answers' do
 
   before { visit question_path(question) }
   scenario 'User see question and 3 answers' do
-    expect(page).to have_content question.answers.first.body
+    question.answers.each do |answer|
+      expect(page).to have_content answer.body
+    end
+
     expect(page.find_all('li.answer').count).to eq 3
   end
 end
