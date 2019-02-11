@@ -1,11 +1,5 @@
 class AnswersController < ApplicationController
-  def index
-    @answers = question.answers
-  end
-
-  def new; end
-
-  def edit; end
+  before_action :authenticate_user!
 
   def create
     @answer = question.answers.new(answer_params)
