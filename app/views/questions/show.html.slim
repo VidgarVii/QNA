@@ -1,6 +1,8 @@
 h2 = question.title
 p "author: #{question.author.email}"
 p = question.body
+= delete_btn(question)
+
 ul
   = render question.answers.select(&:persisted?)
 
