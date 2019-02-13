@@ -3,7 +3,7 @@ module ApplicationHelper
     return unless current_user&.author_of?(resource)
 
     name = resource.model_name.human.downcase
-    link_to "Delete #{name}", "/#{name}s/#{resource.id}",
+    link_to "Delete #{name}", polymorphic_url(resource),
             role: 'button',
             class: 'btn btn-warning',
             method: :delete,
