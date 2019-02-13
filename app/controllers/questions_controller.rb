@@ -33,6 +33,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    return unless current_user == question.author
+
     question.destroy
     redirect_to questions_path
   end

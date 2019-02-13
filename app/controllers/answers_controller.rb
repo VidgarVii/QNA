@@ -9,7 +9,6 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to question_path(question), notice: 'Your answer successfully create.'
     else
-      flash[:alert] = "Body can't be blank!"
       render 'questions/show'
     end
   end
@@ -23,6 +22,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    return unless current_user == answer.author
+
     answer.destroy
     redirect_to question_path(answer.question)
   end
