@@ -18,7 +18,13 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to show view question' do
         post :create, params: { answer: attributes_for(:answer), question_id: question.id }
+
         expect(response).to redirect_to question
+      end
+
+      it 'Current user is author of a answer' do
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
+          .to change(user.answers, :count).by(1)
       end
     end
 
