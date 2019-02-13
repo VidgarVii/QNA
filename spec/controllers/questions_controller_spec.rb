@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:author) { create(:user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -27,7 +28,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { login(user) }
+    before { login(author) }
     before { get :new }
 
     it 'renders new view' do
@@ -36,7 +37,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { login(user) }
+    before { login(author) }
     before { get :edit, params: { id: question } }
 
     it 'renders edit view' do
@@ -48,7 +49,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     let(:create_question) { post :create, params: { question: attributes_for(:question) } }
 
-    before { login(user) }
+    before { login(author) }
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
@@ -62,7 +63,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'Current user is author of a question' do
-        expect { create_question }.to change(user.questions, :count).by(1)
+        expect { create_question }.to change(author.questions, :count).by(1)
       end
     end
 
@@ -79,10 +80,9 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-
     let(:update_question) { patch :update, params: { id: question, question: attributes_for(:question) } }
 
-    before { login(user) }
+    before { login(author) }
 
     context 'with valid attributes' do
       it 'assign the requested question to @question' do
@@ -123,16 +123,47 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #destroy' do
-    before { login(user) }
-    let!(:question) { create(:question, author: user) }
+    let!(:question) { create(:question, author: author) }
+    let(:question_destroy) { delete :destroy, params: { id: question } }
 
-    it 'delete the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'Author' do
+      before { login(author) }
+
+      it 'delete the question' do
+        expect { question_destroy }.to change(author.questions, :count).by(-1)
+      end
+
+      it 'redirect to questions_path' do
+        question_destroy
+
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirect to questions_path' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'Not authenticated user' do
+      it 'delete the question' do
+        expect { question_destroy }.to_not change(Question, :count)
+      end
+
+      it 'redirect to questions_path' do
+        question_destroy
+
+        expect(response).to redirect_to  new_user_session_path
+      end
+    end
+
+    context 'Not the author' do
+      before { login(user) }
+
+      it 'delete the question' do
+        expect { question_destroy }.to_not change(Question, :count)
+      end
+
+      it 'redirect to questions_path' do
+        question_destroy
+
+        expect(response).to redirect_to  questions_path
+      end
     end
   end
 end

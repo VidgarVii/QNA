@@ -5,11 +5,11 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:question) { create(:question) }
+  let(:author) { create(:user) }
   let(:user) { create(:user) }
 
-  before { login(user) }
-
   describe 'POST #create' do
+    before { login(author) }
 
     let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
 
@@ -25,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'Current user is author of a answer' do
-        expect { create_answer }.to change(user.answers, :count).by(1)
+        expect { create_answer }.to change(author.answers, :count).by(1)
       end
     end
 
@@ -42,6 +42,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before { login(author) }
 
     let(:update_answer) { patch :update, params: { id: answer, answer: attributes_for(:answer) } }
 
@@ -82,17 +83,47 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
-    let!(:answer) { create(:answer, author: user) }
+    let!(:answer) { create(:answer, author: author) }
+    let(:answer_destroy) { delete :destroy, params: { id: answer } }
 
-    it 'destroy answer' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    context 'Author' do
+      before { login(author) }
+
+      it 'destroy answer' do
+        expect { answer_destroy }.to change(author.answers, :count).by(-1)
+      end
+
+      it 'redirect to questions_path' do
+        answer_destroy
+
+        expect(response).to redirect_to question_path(answer.question)
+      end
     end
 
-    it 'redirect to questions_path' do
-      delete :destroy, params: { id: answer }
+    context 'Not the author' do
+      before { login(user) }
 
-      expect(response).to redirect_to question_path(answer.question)
+      it 'destroy answer' do
+        expect { answer_destroy }.to_not change(Answer, :count)
+      end
+
+      it 'redirect to questions_path' do
+        answer_destroy
+
+        expect(response).to redirect_to question_path(answer.question)
+      end
+    end
+
+    context 'Not authenticated user' do
+      it 'destroy answer' do
+        expect { answer_destroy }.to_not change(Answer, :count)
+      end
+
+      it 'redirect to questions_path' do
+        answer_destroy
+
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
 end

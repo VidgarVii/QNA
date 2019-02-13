@@ -9,7 +9,5 @@ feature 'User can see question answers' do
     question.answers.each do |answer|
       expect(page).to have_content answer.body
     end
-
-    expect(page.find_all('li.answer').count).to eq 3
   end
 end
