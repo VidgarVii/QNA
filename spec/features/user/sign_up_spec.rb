@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 feature 'User can registration', "
-  Valid attributes
-  Invalid attributes
+  To ask a question
+  To answer the question
 " do
 
   background { visit new_user_registration_path }
