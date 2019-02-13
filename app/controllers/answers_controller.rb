@@ -22,9 +22,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    return unless current_user == answer.author
+    answer.destroy if current_user.author_of?(answer)
 
-    answer.destroy
     redirect_to question_path(answer.question)
   end
 
