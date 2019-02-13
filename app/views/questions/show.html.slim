@@ -4,7 +4,7 @@ p = question.body
 = delete_btn(question)
 
 ul
-  = render question.answers.select(&:persisted?)
+  = render question.answers
 
 hr
 = render 'answers/form'

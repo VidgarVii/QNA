@@ -1,4 +1,5 @@
-li.answer
-  p = answer.body
-  p "author: #{question.author.email}"
-  = delete_btn(answer)
+- if answer.persisted?
+    li.answer
+      p = answer.body
+      p "author: #{question.author.email}"
+      = delete_btn(answer)
