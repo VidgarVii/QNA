@@ -66,7 +66,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not change question' do
         answer.reload
 
-        expect(answer.body).to eq 'MyText'
+        expect(answer.body).to eq 'MyText Answer'
       end
 
       it 're-render edit view' do
@@ -76,8 +76,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create(:answer) }
     before { login(user) }
+    let!(:answer) { create(:answer, author: user) }
 
     it 'destroy answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)

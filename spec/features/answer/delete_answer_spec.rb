@@ -5,25 +5,28 @@ feature 'User can delete own answer' do
   given(:answer_own) { create(:answer) }
   given(:answer_foreign) { create(:answer) }
 
-  background { sign_in(answer_own.author) }
+  context 'Authenticate user' do
+    background { sign_in(answer_own.author) }
 
-  context 'Own answer' do
-    background { visit question_path(answer_own.question) }
-
-    scenario 'Delete button should exists' do
-      expect(page.has_css?('a[data-method="delete"]', text: 'Delete answer')).to be_truthy
-    end
-
-    scenario 'User delete answer' do
+    scenario 'User delete own answer' do
+      visit question_path(answer_own.question)
       click_on 'Delete answer'
 
-      expect(page).to have_content answer_own.question.title
+      expect(page).to_not have_content answer_own.body
     end
-  end
 
-  scenario 'User not can delete foreign answer' do
-    visit question_path(answer_foreign.question)
+    scenario 'User not can delete foreign answer' do
+      visit question_path(answer_foreign.question)
 
-    expect(page.has_css?('a[data-method="delete"]', text: 'Delete answer')).to be_falsey
+      expect(page).to_not have_link 'Delete answer'
+    end
+
+    context 'Un authenticate user' do
+      scenario 'User not can delete foreign answer' do
+        visit question_path(answer_foreign.question)
+
+        expect(page).to_not have_link 'Delete answer'
+      end
+    end
   end
 end

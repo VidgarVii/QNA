@@ -5,25 +5,32 @@ feature 'User can delete own question' do
   given(:question_own) { create(:question) }
   given(:question_foreign) { create(:question) }
 
-  background { sign_in(question_own.author) }
+  context 'Authenticate user' do
+    background { sign_in(question_own.author) }
 
-  context 'Own question' do
-    background { visit question_path(question_own) }
+    context 'Own question' do
+      background { visit question_path(question_own) }
 
-    scenario 'Delete button should exists for authenticated user' do
-      expect(page.has_css?('a[data-method="delete"]', text: 'Delete question')).to be_truthy
+      scenario 'Authenticated user delete question' do
+        click_on 'Delete question'
+
+        expect(page).to_not have_content question_own.body
+      end
     end
 
-    scenario 'Authenticated user delete question' do
-      click_on 'Delete question'
+    scenario 'Authenticated user delete foreign question' do
+      visit question_path(question_foreign)
 
-      expect(page).to have_content 'Ask question'
+      expect(page).to_not have_link 'Delete question'
     end
-  end
 
-  scenario 'Authenticated user delete foreign question' do
-    visit question_path(question_foreign)
 
-    expect(page.has_css?('a[data-method="delete"]', text: 'Delete question')).to be_falsey
+    context 'Un authenticate user' do
+      scenario 'User not can delete foreign answer' do
+        visit question_path(question_foreign)
+
+        expect(page).to_not have_link 'Delete question'
+      end
+    end
   end
 end

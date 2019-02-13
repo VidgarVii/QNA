@@ -115,8 +115,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #destroy' do
-    let!(:question) { create(:question) }
     before { login(user) }
+    let!(:question) { create(:question, author: user) }
 
     it 'delete the question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
