@@ -45,21 +45,24 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+
+    let(:create_question) { post :create, params: { question: attributes_for(:question) } }
+
     before { login(user) }
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-        expect{ post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { create_question }.to change(Question, :count).by(1)
       end
 
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
+        create_question
+
         expect(response).to redirect_to assigns(:question)
       end
 
       it 'Current user is author of a question' do
-        expect { post :create, params: { question: attributes_for(:question) } }
-          .to change(user.questions, :count).by(1)
+        expect { create_question }.to change(user.questions, :count).by(1)
       end
     end
 
@@ -76,11 +79,15 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+
+    let(:update_question) { patch :update, params: { id: question, question: attributes_for(:question) } }
+
     before { login(user) }
 
     context 'with valid attributes' do
       it 'assign the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        update_question
+
         expect(assigns(:question)).to eq question
       end
 
@@ -93,7 +100,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to updates question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        update_question
+
         expect(response).to redirect_to question
       end
     end

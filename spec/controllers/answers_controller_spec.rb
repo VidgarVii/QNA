@@ -10,21 +10,22 @@ RSpec.describe AnswersController, type: :controller do
   before { login(user) }
 
   describe 'POST #create' do
+
+    let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
+
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
-          .to change(question.answers, :count).by(1)
+        expect { create_answer }.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to show view question' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question.id }
+        create_answer
 
         expect(response).to redirect_to question
       end
 
       it 'Current user is author of a answer' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
-          .to change(user.answers, :count).by(1)
+        expect { create_answer }.to change(user.answers, :count).by(1)
       end
     end
 
@@ -35,15 +36,19 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render new view' do
         post :create, params: { answer: attributes_for(:answer, :invalid_answer), question_id: question.id }
-        expect(response).to redirect_to question
+        expect(response).to render_template :show
       end
     end
   end
 
   describe 'PATCH #update' do
+
+    let(:update_answer) { patch :update, params: { id: answer, answer: attributes_for(:answer) } }
+
     context 'with valid attributes' do
       it 'assign the requested answer to @answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        update_answer
+
         expect(assigns(:answer)).to eq answer
       end
 
@@ -55,7 +60,8 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to updates answer' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        update_answer
+
         expect(response).to redirect_to answer
       end
     end
@@ -85,6 +91,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'redirect to questions_path' do
       delete :destroy, params: { id: answer }
+
       expect(response).to redirect_to question_path(answer.question)
     end
   end
