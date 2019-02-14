@@ -16,21 +16,19 @@ feature 'User can create answer', "
       visit question_path(question)
     end
 
-    scenario 'asks a answer' do
+    scenario 'asks a answer', js: true do
       fill_in 'Body', with: 'New Answer!'
       click_on 'Answer'
 
-      expect(page).to have_content 'Your answer successfully create.'
       expect(page).to have_content 'New Answer!'
     end
 
-    scenario 'asks a answer with errors' do
+    scenario 'asks a answer with errors', js: true do
       click_on 'Answer'
 
       expect(page).to have_content "Body can't be blank"
       expect(page).to have_content "error(s) detected"
     end
-
   end
 
   scenario 'Unauthenticated user to ask a question' do

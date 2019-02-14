@@ -11,7 +11,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'POST #create' do
     before { login(author) }
 
-    let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id } }
+    let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id }, format: :js }
 
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
@@ -21,7 +21,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirects to show view question' do
         create_answer
 
-        expect(response).to redirect_to question
+        expect(response).to render_template :create
       end
 
       it 'Current user is author of a answer' do
@@ -30,13 +30,16 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      let(:invalid_answer) { post :create, params: { answer: attributes_for(:answer, :invalid_answer), question_id: question.id }, format: :js }
+
       it 'does not save the answer' do
-        expect { post :create, params: { answer: attributes_for(:answer, :invalid_answer), question_id: question.id } }.to_not change(Answer, :count)
+        expect { invalid_answer }.to_not change(Answer, :count)
       end
 
       it 're-render new view' do
-        post :create, params: { answer: attributes_for(:answer, :invalid_answer), question_id: question.id }
-        expect(response).to render_template :show
+        invalid_answer
+
+        expect(response).to render_template :create
       end
     end
   end

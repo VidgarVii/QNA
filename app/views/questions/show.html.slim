@@ -3,7 +3,7 @@ p "author: #{question.author.email}"
 p = question.body
 = delete_btn(question)
 
-ul
+ul.answers_list
   = render question.answers
 
 hr
