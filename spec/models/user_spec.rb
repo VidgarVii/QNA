@@ -15,13 +15,11 @@ RSpec.describe User, type: :model do
     let(:question) { create(:question, author: author) }
 
     it 'Check authorship' do
-      expect(author.author_of?(answer)).to be_truthy
-      expect(author.author_of?(question)).to be_truthy
+      expect(author).to be_author_of(answer)
     end
 
     it 'Check foreign authorship' do
-      expect(user.author_of?(answer)).to be_falsey
-      expect(user.author_of?(question)).to be_falsey
+      expect(user).to_not be_author_of(answer)
     end
   end
 end
