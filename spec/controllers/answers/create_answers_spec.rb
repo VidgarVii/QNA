@@ -7,11 +7,11 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:author) { create(:user) }
   let(:user) { create(:user) }
+  let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id }, format: :js }
 
   describe 'POST #create' do
-    before { login(author) }
 
-    let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id }, format: :js }
+    before { login(author) }
 
     context 'with valid attributes' do
       it 'saves a new answer in the database' do

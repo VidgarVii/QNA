@@ -7,6 +7,7 @@ module ApplicationHelper
             role: 'button',
             class: 'btn btn-warning',
             method: :delete,
+            remote: true,
             data: { confirm: 'Are you sure?'}
     end
 end
