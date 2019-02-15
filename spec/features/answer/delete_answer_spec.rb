@@ -5,13 +5,17 @@ feature 'User can delete own answer' do
   given(:answer_own) { create(:answer) }
   given(:answer_foreign) { create(:answer) }
 
+
+
   context 'Authenticate user' do
     background { sign_in(answer_own.author) }
 
     scenario 'delete own answer', js: true do
       visit question_path(answer_own.question)
-      click_on 'Delete answer'
-      # TODO Надо нажать confirm
+
+      accept_confirm do
+        click_on 'Delete answer'
+      end
 
       expect(page).to_not have_content answer_own.body
     end
