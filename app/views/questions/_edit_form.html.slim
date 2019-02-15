@@ -1,0 +1,9 @@
+= link_to 'Edit question', '#', class: 'edit_question_link btn btn-info'
+
+= form_with model: question, class: "edit_question_form hidden" do |f|
+  .edit_question_errors
+  = f.label :title
+  = f.text_field :title
+  = f.label :body, for: "question_body_update-#{question.id}"
+  = f.text_area :body, id: "question_body_update-#{question.id}"
+  = f.submit 'Save', class: 'btn btn-success'

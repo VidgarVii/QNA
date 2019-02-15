@@ -1,0 +1,13 @@
+var questionBlock = document.getElementsByClassName('question')[0];
+var questionBody = questionBlock.getElementsByClassName('question_body')[0];
+var questionHeader = questionBlock.getElementsByTagName('h2')[0];
+var questionErrors = document.getElementsByClassName('edit_question_errors')[0];
+var forma = document.getElementsByClassName('edit_question_form')[0];
+
+<% if question&.errors.present? %>
+  questionErrors.innerHTML = '<%= render 'shared/errors', resource: question %>';
+<% else %>
+  questionHeader.innerHTML = "<%= question.title %>";
+  questionBody.innerHTML = "<%= question.body %>";
+  forma.classList.add('hidden');
+<% end %>

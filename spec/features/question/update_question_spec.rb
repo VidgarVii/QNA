@@ -11,16 +11,16 @@ feature 'User can edit own question' do
       visit question_path(question)
     end
 
-    scenario 'valid attributes' do
-      click_on 'Edit Question'
+    scenario 'valid attributes', js: true do
+      click_on 'Edit question'
 
-      within '.update_question' do
+      within '.question' do
         fill_in 'Title', with: 'New Title'
         fill_in 'Body', with: 'New Body'
         click_on 'Save'
       end
 
-      expect(page).to have_selector '.update_question', visible: false
+      expect(page).to_not have_selector '.edit_question_form'
       expect(page).to_not have_content question.body
       expect(page).to_not have_content question.title
       expect(page).to have_content 'New Title'
