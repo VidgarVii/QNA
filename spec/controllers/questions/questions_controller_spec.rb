@@ -36,15 +36,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before { login(author) }
-    before { get :edit, params: { id: question } }
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
 
     let(:create_question) { post :create, params: { question: attributes_for(:question) } }
@@ -75,49 +66,6 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-render new view' do
         post :create, params: { question: attributes_for(:question, :invalid_question) }
         expect(response).to render_template :new
-      end
-    end
-  end
-
-  describe 'PATCH #update' do
-    let(:update_question) { patch :update, params: { id: question, question: attributes_for(:question) } }
-
-    before { login(author) }
-
-    context 'with valid attributes' do
-      it 'assign the requested question to @question' do
-        update_question
-
-        expect(assigns(:question)).to eq question
-      end
-
-      it 'changes question attributes' do
-        patch :update, params: { id: question, question: attributes_for(:question, :edit_question) }
-        question.reload
-
-        expect(question.title).to eq 'New Title'
-        expect(question.body).to eq 'New Body'
-      end
-
-      it 'redirects to updates question' do
-        update_question
-
-        expect(response).to redirect_to question
-      end
-    end
-
-    context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid_question) } }
-
-      it 'does not change question' do
-        question.reload
-
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
-      end
-
-      it 're-render edit view' do
-        expect(response).to render_template :edit
       end
     end
   end

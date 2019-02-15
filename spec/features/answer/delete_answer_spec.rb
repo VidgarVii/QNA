@@ -5,8 +5,6 @@ feature 'User can delete own answer' do
   given(:answer_own) { create(:answer) }
   given(:answer_foreign) { create(:answer) }
 
-
-
   context 'Authenticate user' do
     background { sign_in(answer_own.author) }
 
