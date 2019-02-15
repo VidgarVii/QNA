@@ -6,6 +6,6 @@ answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
 <% if answer.persisted? %>
   var block = document.createElement('div')
   block.innerHTML = '<%= j render @answer%>';
-  answerInput.value=''
+  answerInput.value = ''
   answersList.append(block);
 <% end %>

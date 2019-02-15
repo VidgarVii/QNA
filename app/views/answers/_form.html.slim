@@ -2,5 +2,5 @@
 
 = form_with model: [question, Answer.new] do |f|
   = f.label :body, for: 'answer_body_create'
-  = f.text_field :body, id: 'answer_body_create'
+  = f.text_area :body, id: 'answer_body_create'
   = f.submit 'Answer'
