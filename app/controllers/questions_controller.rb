@@ -21,7 +21,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    current_user.author_of?(question) ? question.update(question_params) : question
+    question.update(question_params) if current_user.author_of?(question)
   end
 
   def destroy
@@ -31,11 +31,9 @@ class QuestionsController < ApplicationController
   end
 
   def best_answer
-    if current_user.author_of?(question)
-      question.update(best_answer: params[:question][:answer_id])
-    else
-      question
-    end
+    question.update(best_answer: params[:answer_id]) if current_user.author_of?(question)
+
+    @answer = Answer.find(params[:answer_id])
   end
 
   private

@@ -1,0 +1,13 @@
+var answersList = document.getElementsByClassName('answers_list')[0],
+    answer = document.getElementById('answer-<%= @answer.id %>').parentElement,
+    block = document.createElement('div'),
+    correct_answers = document.getElementsByClassName('correct_answer');
+
+//answer.remove();
+
+//for (let answer of correct_answers) {
+//  console.log(answer.classList.remove('correct_answer'));
+//}
+
+answersList.innerHTML = '<%= j render question.answers, style: 'correct_answer'%>';
+//answersList.insertBefore(block, answersList.firstChild );

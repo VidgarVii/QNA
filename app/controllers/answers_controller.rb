@@ -8,11 +8,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    current_user.author_of?(answer) ? answer.update(answer_params) : answer
+    answer.update(answer_params) if current_user.author_of?(answer)
   end
 
   def destroy
-    current_user.author_of?(answer) ? answer.destroy : answer
+    answer.destroy if current_user.author_of?(answer)
   end
 
   private

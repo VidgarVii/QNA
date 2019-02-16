@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, :with_answers) }
-  let(:choose_best_answer) { post :best_answer, params: { id: question, question: { answer_id: question.answers.last.id } }, format: :js }
+  let(:choose_best_answer) { post :best_answer, params: { id: question, answer_id: question.answers.last.id }, format: :js }
 
   describe 'PATCH #best_answer', "
   Only author question can choose best answer" do
@@ -30,7 +30,5 @@ RSpec.describe QuestionsController, type: :controller do
 
       expect(response).to render_template :best_answer
     end
-
-
   end
 end

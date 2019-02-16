@@ -1,8 +1,7 @@
-li.answer
-  button.best.btn.btn-info[data-id="#{answer.id}"] B
+li[class='answer #{style}']
+  = best_button 'B', question, answer.id, 'btn btn-info best' if current_user&.author_of?(question)
   p[id="answer-#{answer.id}"] = answer.body
-  p "author: #{answer.author.email}"
+  p.author author: #{answer.author.email}
   = delete_btn(answer)
-
 
   = render 'answers/edit_form', answer: answer if current_user&.author_of?(answer)

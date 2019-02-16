@@ -1,6 +1,6 @@
-var answerErrors = document.getElementsByClassName('answer_errors')[0];
-var answersList = document.getElementsByClassName('answers_list')[0];
-var answerInput = document.getElementById('answer_body_create');
+var answerErrors = document.getElementsByClassName('answer_errors')[0],
+    answersList = document.getElementsByClassName('answers_list')[0],
+    answerInput = document.getElementById('answer_body_create');
 
 answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
 <% if answer.persisted? %>
