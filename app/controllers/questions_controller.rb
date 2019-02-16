@@ -21,13 +21,21 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user.author_of?(question)
+    current_user.author_of?(question) ? question.update(question_params) : question
   end
 
   def destroy
     question.destroy if current_user.author_of?(question)
 
     redirect_to questions_path
+  end
+
+  def best_answer
+    if current_user.author_of?(question)
+      question.update(best_answer: params[:question][:answer_id])
+    else
+      question
+    end
   end
 
   private

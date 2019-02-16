@@ -1,4 +1,5 @@
 li.answer
+  button.best.btn.btn-info[data-id="#{answer.id}"] B
   p[id="answer-#{answer.id}"] = answer.body
   p "author: #{answer.author.email}"
   = delete_btn(answer)
