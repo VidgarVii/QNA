@@ -1,5 +1,5 @@
 li[class='answer #{style}']
-  = best_button 'B', question, answer.id, 'btn btn-info best' if current_user&.author_of?(question)
+  = best_button 'B', question, answer.id, 'btn btn-info best'
   p[id="answer-#{answer.id}"] = answer.body
   p.author author: #{answer.author.email}
   = delete_btn(answer)

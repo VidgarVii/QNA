@@ -9,10 +9,10 @@ feature 'User can edit own question' do
     background do
       sign_in(question.author)
       visit question_path(question)
+      click_on 'Edit question'
     end
 
     scenario 'valid attributes', js: true do
-      click_on 'Edit question'
 
       within '.question' do
         fill_in 'Title', with: 'New Title'
@@ -27,7 +27,17 @@ feature 'User can edit own question' do
       expect(page).to have_content 'New Body'
     end
 
-    scenario 'invalid attributes'
+    scenario 'invalid attributes', js: true do
+      within '.question' do
+        fill_in 'Title', with: ''
+        fill_in 'Body', with: ''
+        click_on 'Save'
+
+        expect(page).to have_content "2 error(s) detected"
+        expect(page).to have_content "Title can't be blank"
+        expect(page).to have_content "Body can't be blank"
+      end
+    end
   end
 
   context 'Foreign question' do
