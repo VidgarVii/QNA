@@ -9,8 +9,9 @@ hr
 h3 Answers
 
 ul.answers_list
-  = render question.correct_answer, style: 'correct_answer'
-  = render question.not_rated_answers, style: nil
+  = render @answers
 
 hr
 = render 'answers/form'
+
+- console

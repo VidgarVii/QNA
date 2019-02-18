@@ -5,7 +5,9 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @answers = question.answers.order(best: :desc)
+  end
 
   def new; end
 
@@ -28,11 +30,6 @@ class QuestionsController < ApplicationController
     question.destroy if current_user.author_of?(question)
 
     redirect_to questions_path
-  end
-
-  def best_answer
-    question.update(best_answer_id: params[:answer_id]) if current_user.author_of?(question)
-    @answer = Answer.find(params[:answer_id])
   end
 
   private

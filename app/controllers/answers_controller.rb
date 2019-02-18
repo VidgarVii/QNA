@@ -15,10 +15,15 @@ class AnswersController < ApplicationController
     answer.destroy if current_user.author_of?(answer)
   end
 
+  def set_best
+    answer.make_the_best if current_user.author_of?(answer.question)
+    @answers = answer.question.answers.order(best: :desc)
+  end
+
   private
 
   def question
-    @question = Question.find(params[:question_id])
+    @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
   end
 
   def answer

@@ -1,8 +1,0 @@
-var answersList = document.getElementsByClassName('answers_list')[0],
-    answer = document.getElementById('answer-<%= @answer.id %>').parentElement,
-    block = document.createElement('div'),
-    correct_answers = document.getElementsByClassName('correct_answer');
-
-answersList.innerHTML = '<%= j render question.correct_answer, style: 'correct_answer'%>';
-block.innerHTML = '<%= j render question.not_rated_answers, style: nil%>';
-answersList.append(block);

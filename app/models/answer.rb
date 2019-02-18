@@ -3,4 +3,9 @@ class Answer < ApplicationRecord
   belongs_to :author, class_name: 'User', foreign_key: 'user_id'
 
   validates :body, presence: true
+
+  def make_the_best
+    question.answers.update_all(best: false)
+    update(best: true)
+  end
 end
