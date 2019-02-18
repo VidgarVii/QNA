@@ -1,6 +1,6 @@
 module QuestionsHelper
   def best_button(name, question, answer_id, css)
-    return unless user_signed_in? && current_user&.author_of?(question) && question.best_answer != answer_id
+    return unless user_signed_in? && current_user&.author_of?(question) && question.best_answer_id != answer_id
 
     button_to name, best_answer_question_path(question),
               params: { answer_id: answer_id },

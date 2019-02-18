@@ -13,7 +13,7 @@ RSpec.describe QuestionsController, type: :controller do
       choose_best_answer
       question.reload
 
-      expect(question.best_answer).to be_nil
+      expect(question.best_answer_id).to be_nil
     end
 
     before { login(question.author) }
@@ -22,7 +22,7 @@ RSpec.describe QuestionsController, type: :controller do
       choose_best_answer
       question.reload
 
-      expect(question.best_answer).to eq question.answers.last.id
+      expect(question.best_answer_id).to eq question.answers.last.id
     end
 
     it 'render template best_answer' do

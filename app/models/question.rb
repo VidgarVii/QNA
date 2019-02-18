@@ -4,14 +4,11 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  # TODO
-  # Излишние запросы. Можно обойтись partition
-
   def correct_answer
-    answers.where(id: best_answer)
+    answers.where(id: best_answer_id)
   end
 
   def not_rated_answers
-    answers.where.not(id: best_answer)
+    answers.where.not(id: best_answer_id)
   end
 end

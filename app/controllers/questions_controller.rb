@@ -31,7 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def best_answer
-    question.update(best_answer: params[:answer_id]) if current_user.author_of?(question)
+    question.update(best_answer_id: params[:answer_id]) if current_user.author_of?(question)
     @answer = Answer.find(params[:answer_id])
   end
 
