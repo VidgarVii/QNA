@@ -3,4 +3,6 @@
 = form_with model: [question, Answer.new], class: 'ask_answer' do |f|
   = f.label :body, for: 'answer_body_create'
   = f.text_area :body, id: 'answer_body_create'
+  = f.label :files
+  = f.file_field :files, multiple: true
   = f.submit 'Answer', class: 'btn btn-success'

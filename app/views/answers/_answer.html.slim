@@ -1,6 +1,12 @@
 li[class='answer' data-best_answer="#{answer.best}"]
   = best_button 'Best', answer, 'btn btn-info best'
   p[id="answer-#{answer.id}"] = answer.body
+
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      = link_to file.filename.to_s, url_for(file), target: '_blank'
+      br
+
   p.author author: #{answer.author.email}
   = delete_btn(answer)
 
