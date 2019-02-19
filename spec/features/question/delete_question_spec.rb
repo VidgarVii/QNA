@@ -11,7 +11,7 @@ feature 'User can delete own question' do
     context 'Own question' do
       background { visit question_path(question_own) }
 
-      scenario 'Authenticated user delete question' do
+      scenario 'Authenticated user' do
         click_on 'Delete question'
 
         expect(page).to_not have_content question_own.body

@@ -7,6 +7,7 @@ feature 'User can create question', "
 " do
 
   describe 'Authenticated user' do
+    given(:user) { create(:user) }
 
     background do
       sign_in(user)
@@ -14,8 +15,6 @@ feature 'User can create question', "
       visit questions_path
       click_on 'Ask question'
     end
-
-    given(:user) { create(:user) }
 
     scenario 'asks a question' do
       fill_in 'Title', with: 'Some Title'

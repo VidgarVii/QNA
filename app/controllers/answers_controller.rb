@@ -1,36 +1,41 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  def edit; end
-
   def create
     @answer = question.answers.new(answer_params)
     @answer.author = current_user
-    if @answer.save
-      redirect_to question_path(question), notice: 'Your answer successfully create.'
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def update
-    if answer.update(answer_params)
-      redirect_to answer
+    if current_user&.author_of?(answer)
+      answer.update(answer_params)
     else
-      render :edit
+      head :forbidden
     end
   end
 
   def destroy
-    answer.destroy if current_user.author_of?(answer)
+    if current_user&.author_of?(answer)
+      answer.destroy
+    else
+      head :forbidden
+    end
+  end
 
-    redirect_to question_path(answer.question)
+  def set_best
+    if current_user&.author_of?(answer.question)
+      answer.make_the_best
+      @answers = answer.question.answers.order(best: :desc)
+    else
+      head :forbidden
+    end
   end
 
   private
 
   def question
-    @question = Question.find(params[:question_id])
+    @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
   end
 
   def answer

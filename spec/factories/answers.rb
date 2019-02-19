@@ -7,14 +7,16 @@ FactoryBot.define do
     body { 'MyText Answer' }
     question
     association :author, factory: :user
+
+    factory :uniq_answer do
+      body
+      question
+      association :author, factory: :user
+    end
   end
 
   trait :invalid_answer do
     body { nil }
-  end
-
-  trait :uniq_answer do
-    body_answer
   end
 
   trait :edit_answer do

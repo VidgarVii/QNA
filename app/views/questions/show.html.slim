@@ -1,10 +1,15 @@
-h2 = question.title
-p "author: #{question.author.email}"
-p = question.body
-= delete_btn(question)
+.question
+  h2 = question.title
+  p "author: #{question.author.email}"
+  p.question_body = question.body
+  = delete_btn(question)
+  = render 'edit_form', question: question if current_user&.author_of?(question)
 
-ul
-  = render question.answers
+hr
+h3 Answers
+
+ul.answers_list
+  = render @answers
 
 hr
 = render 'answers/form'

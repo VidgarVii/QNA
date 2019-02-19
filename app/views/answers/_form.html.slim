@@ -1,6 +1,6 @@
-= render 'shared/errors', resource: @answer
+.answer_errors
 
-= form_with model: [question, Answer.new], local: true do |f|
-  = f.label :body
-  = f.text_field :body
-  = f.submit 'Answer'
+= form_with model: [question, Answer.new], class: 'ask_answer' do |f|
+  = f.label :body, for: 'answer_body_create'
+  = f.text_area :body, id: 'answer_body_create'
+  = f.submit 'Answer', class: 'btn btn-success'

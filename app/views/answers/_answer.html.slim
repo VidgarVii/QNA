@@ -1,4 +1,7 @@
-li.answer
-  p = answer.body
-  p "author: #{question.author.email}"
+li[class='answer' data-best_answer="#{answer.best}"]
+  = best_button 'Best', answer, 'btn btn-info best'
+  p[id="answer-#{answer.id}"] = answer.body
+  p.author author: #{answer.author.email}
   = delete_btn(answer)
+
+  = render 'answers/edit_form', answer: answer if current_user&.author_of?(answer)

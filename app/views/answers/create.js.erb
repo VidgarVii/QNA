@@ -1,0 +1,11 @@
+var answerErrors = document.getElementsByClassName('answer_errors')[0],
+    answersList = document.getElementsByClassName('answers_list')[0],
+    answerInput = document.getElementById('answer_body_create');
+
+answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
+<% if answer.persisted? %>
+  var block = document.createElement('div')
+  block.innerHTML = '<%= j render @answer, style: nil%>';
+  answerInput.value = ''
+  answersList.append(block);
+<% end %>

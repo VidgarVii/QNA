@@ -1,0 +1,5 @@
+var answersList = document.getElementsByClassName('answers_list')[0];
+
+answersList.innerHTML = '<%= j render @answers %>';
+answersList.children[0].classList.add('best_answer');
+

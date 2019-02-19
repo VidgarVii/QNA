@@ -1,0 +1,10 @@
+var answer_p = document.getElementById('answer-<%= answer.id %>'),
+    answerErrors = document.getElementsByClassName('edit_answer_errors')[0],
+    forma = document.getElementsByClassName('js_form-<%= answer.id %>')[0];
+
+<% if answer&.errors.present? %>
+  answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
+<% else %>
+  answer_p.innerHTML = "<%= answer.body %>";
+  forma.classList.add('hidden');
+<% end %>

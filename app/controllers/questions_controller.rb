@@ -5,11 +5,11 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @answers = question.answers.order(best: :desc)
+  end
 
   def new; end
-
-  def edit; end
 
   def create
     @question = Question.new(question_params)
@@ -23,10 +23,10 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to @question
+    if current_user&.author_of?(question)
+      question.update(question_params)
     else
-      render :edit
+      head :forbidden
     end
   end
 
