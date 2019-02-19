@@ -8,13 +8,15 @@ feature 'Author of the question can choose the best answer', "
 
   given(:user) { create(:user) }
   given(:question) { create(:question, :with_answers) }
-  given(:btn_last_answer) { page.all("input.btn.best") }
+
 
   context 'Own question' do
     background do
       sign_in(question.author)
       visit question_path(question)
     end
+
+    given(:btn_last_answer) { page.all("input[value='Best']") }
 
     scenario 'user choose best answer. Best answer becomes the first in the list', js: true do
       btn_last_answer.last.click
