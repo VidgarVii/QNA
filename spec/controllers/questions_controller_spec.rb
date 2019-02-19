@@ -89,10 +89,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'MyText'
       end
 
-      it 'render update question' do
-        expect(response).to render_template :update
+      it 'render status update question' do
+        expect(response).to have_http_status 403
       end
-
     end
 
     before { login(question.author) }

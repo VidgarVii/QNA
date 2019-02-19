@@ -7,11 +7,9 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, author: author) }
   let(:answer) { create(:answer, author: author, question: question) }
   let(:user) { create(:user) }
-  let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id }, format: :js }
-  let(:update_answer) { patch :update, params: { id: answer, answer: attributes_for(:answer, :edit_answer) }, format: :js}
-  let(:make_the_best) { patch :set_best, params: { id: answer }, format: :js}
 
   describe 'POST #create' do
+    let(:create_answer) { post :create, params: { answer: attributes_for(:answer), question_id: question.id }, format: :js }
 
     before { login(author) }
 
@@ -47,6 +45,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let(:update_answer) { patch :update, params: { id: answer, answer: attributes_for(:answer, :edit_answer) }, format: :js}
+
     before { login(author) }
 
     context 'with valid attributes' do
@@ -92,6 +92,12 @@ RSpec.describe AnswersController, type: :controller do
 
         expect(answer.body).to_not eq 'New Body'
       end
+
+      it 'render status 403' do
+        update_answer
+
+        expect(response).to have_http_status 403
+      end
     end
   end
 
@@ -120,10 +126,10 @@ RSpec.describe AnswersController, type: :controller do
         expect { answer_destroy }.to_not change(Answer, :count)
       end
 
-      it 'redirect to questions_path' do
+      it 'render status 403' do
         answer_destroy
 
-        expect(response).to render_template :destroy
+        expect(response).to have_http_status 403
       end
     end
 
@@ -141,6 +147,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #set_best' do
+    let(:make_the_best) { patch :set_best, params: { id: answer }, format: :js}
 
     describe 'make answer the best' do
       before { login(author) }
@@ -149,7 +156,7 @@ RSpec.describe AnswersController, type: :controller do
         make_the_best
         answer.reload
 
-        expect(answer.best).to be_truthy
+        expect(answer).to be_best
       end
 
       it 're-render template set_best' do
@@ -164,7 +171,7 @@ RSpec.describe AnswersController, type: :controller do
         make_the_best
         answer.reload
 
-        expect(answer.best).to be_falsey
+        expect(answer).to_not be_best
       end
 
       it 'dont make best answer for foreign question' do
@@ -172,7 +179,14 @@ RSpec.describe AnswersController, type: :controller do
         make_the_best
         answer.reload
 
-        expect(answer.best).to be_falsey
+        expect(answer).to_not be_best
+      end
+
+      it 'render status 403' do
+        login(user)
+        make_the_best
+
+        expect(response).to have_http_status 403
       end
     end
   end

@@ -8,16 +8,28 @@ class AnswersController < ApplicationController
   end
 
   def update
-    answer.update(answer_params) if current_user.author_of?(answer)
+    if current_user&.author_of?(answer)
+      answer.update(answer_params)
+    else
+      head :forbidden
+    end
   end
 
   def destroy
-    answer.destroy if current_user.author_of?(answer)
+    if current_user&.author_of?(answer)
+      answer.destroy
+    else
+      head :forbidden
+    end
   end
 
   def set_best
-    answer.make_the_best if current_user.author_of?(answer.question)
-    @answers = answer.question.answers.order(best: :desc)
+    if current_user&.author_of?(answer.question)
+      answer.make_the_best
+      @answers = answer.question.answers.order(best: :desc)
+    else
+      head :forbidden
+    end
   end
 
   private

@@ -8,7 +8,7 @@ feature 'Author of the question can choose the best answer', "
 
   given(:user) { create(:user) }
   given(:question) { create(:question, :with_answers) }
-  given(:btn_last_answer) { page.first(:xpath, "//input[@data-id='#{question.answers.last.id}']") }
+  given(:btn_last_answer) { page.all("input.btn.best") }
 
   context 'Own question' do
     background do
@@ -17,9 +17,9 @@ feature 'Author of the question can choose the best answer', "
     end
 
     scenario 'user choose best answer. Best answer becomes the first in the list', js: true do
-      btn_last_answer.click
+      btn_last_answer.last.click
 
-      sleep 1
+      sleep 2
       expect(page.all("ul.answers_list li").first).to have_content question.answers.last.body
       expect(page.all("ul.answers_list li").last).to_not have_content question.answers.last.body
     end
@@ -33,11 +33,11 @@ feature 'Author of the question can choose the best answer', "
     scenario 'user unable choose best answer' do
       sign_in(user)
 
-      expect(page).to_not have_selector(:xpath, "//input[@data-id='#{question.answers.last.id}']")
+      expect(page).to_not have_selector('input', text: 'Best')
     end
 
     scenario 'unauthenticated user' do
-      expect(page).to_not have_selector(:xpath, "//input[@data-id='#{question.answers.last.id}']")
+      expect(page).to_not have_selector('input', text: 'Best')
     end
   end
 end

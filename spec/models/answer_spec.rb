@@ -14,14 +14,14 @@ RSpec.describe Answer, type: :model do
       answer.make_the_best
       answer.reload
 
-      expect(answer.best).to be_truthy
+      expect(answer).to be_best
     end
 
     it 'after call #make_the_best old best_answer make not best' do
       answer.make_the_best
       best_answer.reload
 
-      expect(best_answer.best).to be_falsey
+      expect(best_answer).to_not be_best
     end
   end
 end
