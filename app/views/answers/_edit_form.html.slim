@@ -4,4 +4,14 @@
   .edit_answer_errors
   = f.label :body, for: "answer_body_update-#{answer.id}"
   = f.text_area :body, id: "answer_body_update-#{answer.id}"
+  = f.label :files, for: "answer_files_update-#{answer.id}"
+  = f.file_field :files, multiple: true, id: "answer_files_update-#{answer.id}"
+  .files
+    - if answer.files.attached?
+      table
+        - answer.files.each do |file|
+          tr
+            td.name = link_to file.filename.to_s, url_for(file), target: '_blank'
+            td.delete = link_to 'Delete', '#', class: 'btn btn-warning'
+
   = f.submit 'Save', class: 'btn btn-success'

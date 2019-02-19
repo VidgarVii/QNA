@@ -17,6 +17,7 @@ feature 'User can edit own question' do
       within '.question' do
         fill_in 'Title', with: 'New Title'
         fill_in 'Body', with: 'New Body'
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
       end
 
@@ -25,6 +26,8 @@ feature 'User can edit own question' do
       expect(page).to_not have_content question.title
       expect(page).to have_content 'New Title'
       expect(page).to have_content 'New Body'
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
 
     scenario 'invalid attributes', js: true do

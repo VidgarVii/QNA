@@ -8,24 +8,24 @@ feature 'User can update own answer' do
     background do
       sign_in(answer.author)
       visit question_path(answer.question)
+      click_on 'Edit'
     end
 
     scenario 'valid attribute', js: true do
-      click_on 'Edit'
-
       within '.answer' do
         fill_in 'Body', with: 'Edited answer'
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
         click_on 'Save'
 
         expect(page).to_not have_selector 'textarea'
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'Edited answer'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
 
     scenario 'invalid attribute', js: true do
-      click_on 'Edit'
-
       within '.answer' do
         fill_in 'Body', with: ''
         click_on 'Save'
