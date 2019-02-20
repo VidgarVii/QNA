@@ -1,10 +1,12 @@
 var answer_p = document.getElementById('answer-<%= answer.id %>'),
     answerErrors = document.getElementsByClassName('edit_answer_errors')[0],
+    file_list = document.getElementById('answer_attached-<%= answer.id %>'),
     forma = document.getElementsByClassName('js_form-<%= answer.id %>')[0];
 
 <% if answer&.errors.present? %>
   answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
 <% else %>
   answer_p.innerHTML = "<%= answer.body %>";
+  file_list.innerHTML = '<%= render partial: 'shared/attachment', collection: answer.files %>';
   forma.classList.add('hidden');
 <% end %>

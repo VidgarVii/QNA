@@ -2,6 +2,7 @@ var questionBlock = document.getElementsByClassName('question')[0],
     questionBody = questionBlock.getElementsByClassName('question_body')[0],
     questionHeader = questionBlock.getElementsByTagName('h2')[0],
     questionErrors = document.getElementsByClassName('edit_question_errors')[0],
+    file_list = document.getElementById('quest_attached-<%= question.id %>'),
     forma = document.getElementsByClassName('edit_question_form')[0];
 
 <% if question&.errors.present? %>
@@ -9,5 +10,6 @@ var questionBlock = document.getElementsByClassName('question')[0],
 <% else %>
   questionHeader.innerHTML = "<%= question.title %>";
   questionBody.innerHTML = "<%= question.body %>";
+  file_list.innerHTML = '<%= render partial: 'shared/attachment', collection: question.files %>';
   forma.classList.add('hidden');
 <% end %>

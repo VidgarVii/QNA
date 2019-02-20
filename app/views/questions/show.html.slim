@@ -3,10 +3,9 @@
   p.author author: #{question.author.email}
   p.question_body = question.body
 
-  - if question.files.attached?
-    - question.files.each do |file|
-      = link_to file.filename.to_s, url_for(file), target: '_blank'
-      br
+  ul.attachments[id="quest_attached-#{question.id}"]
+    - if question.files.attached?
+      = render partial: 'shared/attachment', collection: question.files
 
   = delete_btn(question)
   = render 'edit_form', question: question if current_user&.author_of?(question)

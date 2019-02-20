@@ -30,7 +30,7 @@ feature 'User can create answer', "
       expect(page).to have_content "error(s) detected"
     end
 
-    scenario 'asks an answer with attached files' do
+    scenario 'asks an answer with attached files', js: true do
       fill_in 'Body', with: 'Text'
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Answer'

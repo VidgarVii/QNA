@@ -18,9 +18,11 @@ feature 'User can edit own question' do
         fill_in 'Title', with: 'New Title'
         fill_in 'Body', with: 'New Body'
         attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        sleep 2
         click_on 'Save'
       end
 
+      sleep 2
       expect(page).to_not have_selector '.edit_question_form'
       expect(page).to_not have_content question.body
       expect(page).to_not have_content question.title

@@ -14,7 +14,7 @@ document.addEventListener('turbolinks:load', () => {
 
   // Color block for best answer
 
-  if (answers) {
+  if (answers && answers.children.length > 0) {
     first_answer = answers.children[0];
 
     if (first_answer.dataset.best_answer == 'true') first_answer.classList.add('best_answer');
