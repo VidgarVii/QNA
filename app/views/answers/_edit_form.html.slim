@@ -7,15 +7,8 @@
   = f.label :files, for: "answer_files_update-#{answer.id}"
   = f.file_field :files, multiple: true, id: "answer_files_update-#{answer.id}"
   .files
-    - if answer.files.attached?
-      table
-        - answer.files.each do |file|
-          tr[id="attachment-#{file.id}"]
-            td.name = link_to file.filename.to_s, url_for(file), target: '_blank'
-            td.delete = link_to 'Delete', destroy_attachment_answer_path(answer, file_id: file),
-                    class: 'btn btn-warning',
-                    role: 'button',
-                    method: :delete,
-                    remote: true
+    table.answer_attachments
+      - if answer.files.attached?
+        = render partial: 'attachments/attachment', collection: answer.files
 
   = f.submit 'Save', class: 'btn btn-success'

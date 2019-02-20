@@ -1,0 +1,7 @@
+tr[id="attachment-#{attachment.id}"]
+  td.name = link_to attachment.filename.to_s, url_for(attachment), target: '_blank'
+  td.delete = link_to 'Delete', attachment_path(attachment),
+          class: 'btn btn-warning',
+          role: 'button',
+          method: :delete,
+          remote: true

@@ -22,13 +22,9 @@ class AnswersController < ApplicationController
     @answers = answer.question.answers.order(best: :desc)
   end
 
-  def destroy_attachment
-    attachment.purge
-  end
-
   private
 
-  helper_method :answer, :question, :attachment
+  helper_method :answer, :question
 
   def question_author!
     head :forbidden unless current_user&.author_of?(answer.question)
@@ -36,10 +32,6 @@ class AnswersController < ApplicationController
 
   def answer_author!
     head :forbidden unless current_user&.author_of?(answer)
-  end
-
-  def attachment
-    @attachment ||= ActiveStorage::Attachment.find(params[:file_id])
   end
 
   def question

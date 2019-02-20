@@ -15,6 +15,10 @@ FactoryBot.define do
     end
   end
 
+  trait :with_file do
+    files { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
+  end
+
   trait :invalid_answer do
     body { nil }
   end
