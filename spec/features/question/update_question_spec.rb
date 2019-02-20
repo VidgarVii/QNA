@@ -43,6 +43,27 @@ feature 'User can edit own question' do
     end
   end
 
+  context 'User can remove files in own answer' do
+    given(:question) { create(:question, :with_files) }
+
+    background do
+      sign_in(question.author)
+      visit question_path(question)
+      click_on 'Edit question'
+    end
+
+    scenario 'remove files', js: true do
+      sleep 2
+      within '.edit_question_form' do
+        click_on 'Delete'
+        click_on 'Save'
+        sleep 2
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
+    end
+  end
+
   context 'Foreign question' do
     scenario 'authenticated user' do
       sign_in(user)

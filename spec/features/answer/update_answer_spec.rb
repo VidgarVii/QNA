@@ -45,7 +45,6 @@ feature 'User can update own answer' do
       fill_in 'Body', with: 'Answer Body'
       attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Answer'
-
     end
 
     scenario 'remove files', js: true do

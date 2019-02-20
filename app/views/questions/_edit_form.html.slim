@@ -8,4 +8,9 @@
   = f.text_area :body, id: "question_body_update-#{question.id}"
   = f.label :files
   = f.file_field :files, multiple: true
+  .files
+    table.question_attachments
+      - if question.files.attached?
+        = render partial: 'attachments/attachment', collection: question.files
+
   = f.submit 'Save', class: 'btn btn-success'
