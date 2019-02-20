@@ -7,7 +7,7 @@
   = f.label :body, for: "question_body_update-#{question.id}"
   = f.text_area :body, id: "question_body_update-#{question.id}"
   = f.label :files
-  = f.file_field :files, multiple: true
+  = f.file_field :files, multiple: true, direct_upload: true
   .files
     table.question_attachments
       - if question.files.attached?
