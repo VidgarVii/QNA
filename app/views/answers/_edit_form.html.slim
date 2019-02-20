@@ -10,8 +10,12 @@
     - if answer.files.attached?
       table
         - answer.files.each do |file|
-          tr
+          tr[id="attachment-#{file.id}"]
             td.name = link_to file.filename.to_s, url_for(file), target: '_blank'
-            td.delete = link_to 'Delete', '#', class: 'btn btn-warning'
+            td.delete = link_to 'Delete', destroy_attachment_answer_path(answer, file_id: file),
+                    class: 'btn btn-warning',
+                    role: 'button',
+                    method: :delete,
+                    remote: true
 
   = f.submit 'Save', class: 'btn btn-success'

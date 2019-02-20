@@ -4,7 +4,7 @@ feature 'User can update own answer' do
   given(:user) { create(:user) }
   given(:answer) { create(:answer) }
 
-  describe 'User can edit own answer' do
+  context 'User can edit own answer' do
     background do
       sign_in(answer.author)
       visit question_path(answer.question)
@@ -36,7 +36,30 @@ feature 'User can update own answer' do
     end
   end
 
-  describe 'User can not edit foreign answer' do
+  context 'User can remove files in own answer' do
+    given(:question) { create(:question, author: user) }
+
+    background do
+      sign_in(user)
+      visit question_path(question)
+      fill_in 'Body', with: 'Answer Body'
+      attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Answer'
+
+    end
+
+    scenario 'remove files', js: true do
+      within '.answer' do
+        click_on 'Edit'
+        click_on 'Delete'
+        click_on 'Save'
+
+        expect(page).to_not have_link 'spec_helper.rb'
+      end
+    end
+  end
+
+  context 'User can not edit foreign answer' do
     scenario 'Unauthenticated user' do
       visit question_path(answer.question)
 
