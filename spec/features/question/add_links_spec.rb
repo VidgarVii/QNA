@@ -8,8 +8,9 @@ feature 'User can add links to question', "
 
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/VidgarVii/5d57bfba7d270fe169a8189fa5c28575' }
+  given(:google_url) { 'https://google.ru' }
 
-  scenario 'User adds link when asks question' do
+  scenario 'User adds link when asks question', js: true do
     sign_in(user)
     visit new_question_path
 
@@ -18,9 +19,16 @@ feature 'User can add links to question', "
 
     fill_in 'Name', with: 'My gist'
     fill_in 'Url', with: gist_url
+    click_on 'add link'
+
+    within '.nested-fields' do
+      fill_in 'Name', with: 'google'
+      fill_in 'Url', with: google_url
+    end
 
     click_on 'Ask'
 
     expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_link 'google', href: google_url
   end
 end
