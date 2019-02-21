@@ -25,13 +25,14 @@ addEventListener("direct-upload:progress", event => {
 addEventListener("direct-upload:error", event => {
   event.preventDefault()
   const { id, error } = event.detail
-  const element = document.getElementById(`direct-upload-${id}`)
+  const element = document.getElementById(`direct-upload-${id}`);
   element.classList.add("direct-upload--error")
   element.setAttribute("title", error)
 })
 
 addEventListener("direct-upload:end", event => {
   const { id } = event.detail
-  const element = document.getElementById(`direct-upload-${id}`)
+  const element = document.getElementById(`direct-upload-${id}`);
   element.classList.add("direct-upload--complete")
+  element.parentElement.classList.add('hidden');
 })
