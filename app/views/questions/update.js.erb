@@ -3,15 +3,15 @@ var questionBlock = document.getElementsByClassName('question')[0],
     questionHeader = questionBlock.getElementsByTagName('h2')[0],
     questionErrors = document.getElementsByClassName('edit_question_errors')[0],
     fileList = document.getElementById('quest_attached-<%= question.id %>'),
-    inputFiles = document.getElementById('question_files'),
     forma = document.getElementsByClassName('edit_question_form')[0],
+    editform = document.getElementById('js_quest_form-<%= question.id %>'),
     attachmentsTable = forma.getElementsByClassName('question_attachments')[0];
 
 <% if question&.errors.present? %>
   questionErrors.innerHTML = '<%= render 'shared/errors', resource: question %>';
 <% else %>
+  editform.innerHTML = '<%= j render 'edit_form', question: question%>';
   questionHeader.innerHTML = "<%= question.title %>";
-  inputFiles.value = '';
   attachmentsTable.innerHTML = '<%= render partial: 'attachments/attachment', collection: question.files %>';
   questionBody.innerHTML = "<%= question.body %>";
   fileList.innerHTML = '<%= render partial: 'shared/attachment', collection: question.files %>';

@@ -1,14 +1,14 @@
 var answer_p = document.getElementById('answer-<%= answer.id %>'),
     answerErrors = document.getElementsByClassName('edit_answer_errors')[0],
     fileList = document.getElementById('answer_attached-<%= answer.id %>'),
-    inputFile = document.getElementById('answer_files_update-<%= answer.id %>'),
     forma = document.getElementsByClassName('js_form-<%= answer.id %>')[0],
+    editform = document.getElementById('js_form-<%= answer.id %>'),
     attachmentsTable = forma.getElementsByClassName('answer_attachments')[0];
 
 <% if answer&.errors.present? %>
   answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
 <% else %>
-  inputFile.value = '';
+  editform.innerHTML = '<%= j render 'answers/edit_form', answer: answer if current_user&.author_of?(answer) %>';
   answer_p.innerHTML = "<%= j simple_format(answer.body) %>";
   attachmentsTable.innerHTML = '<%= render partial: 'attachments/attachment', collection: answer.files %>';
   fileList.innerHTML = '<%= render partial: 'shared/attachment', collection: answer.files %>';

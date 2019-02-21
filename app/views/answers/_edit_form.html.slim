@@ -1,11 +1,9 @@
-= link_to 'Edit', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
-
 = form_with model: answer, class: "edit_answer_form js_form-#{answer.id} hidden" do |f|
   .edit_answer_errors
   = f.label :body, for: "answer_body_update-#{answer.id}"
   = f.text_area :body, id: "answer_body_update-#{answer.id}"
   = f.label :files, for: "answer_files_update-#{answer.id}"
-  = f.file_field :files, multiple: true, id: "answer_files_update-#{answer.id}"
+  = f.file_field :files, multiple: true, direct_upload: true, id: "answer_files_update-#{answer.id}"
   .files
     table.answer_attachments
       - if answer.files.attached?
