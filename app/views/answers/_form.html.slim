@@ -1,8 +1,17 @@
 .answer_errors
 
-= form_with model: [question, Answer.new], class: 'ask_answer' do |f|
+= form_with model: [question, @answer], class: 'ask_answer' do |f|
   = f.label :body, for: 'answer_body_create'
   = f.text_area :body, id: 'answer_body_create'
   = f.label :files
   = f.file_field :files, multiple: true
+
+  b Links:
+
+  = f.fields_for :links do |l|
+    = l.label :name
+    = l.text_field :name
+    = l.label :url
+    = l.text_field :url
+
   = f.submit 'Answer', class: 'btn btn-success'

@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = question.answers.order(best: :desc)
+    @answer = Answer.new
+    @link = @answer.links.build
   end
 
   def new

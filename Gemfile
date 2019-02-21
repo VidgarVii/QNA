@@ -19,8 +19,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'pg'
 gem 'slim-rails'
 gem 'devise'
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 gem 'bootstrap', '~> 4.2.1'
+gem 'cocoon'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
