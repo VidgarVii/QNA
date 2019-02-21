@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :question_author!, only: :set_best
-  before_action :answer_author!, only: %i[update destroy_attachment destroy]
+  before_action :answer_author!, only: %i[update destroy]
 
   def create
     @answer = question.answers.new(answer_params)
