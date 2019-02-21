@@ -2,7 +2,11 @@
   h2 = question.title
   p.author author: #{question.author.email}
   p.question_body = question.body
+  p.links Links
+  ul.links
+    = render question.links
 
+  p.links Files
   ul.attachments[id="quest_attached-#{question.id}"]
     - if question.files.attached?
       = render partial: 'shared/attachment', collection: question.files

@@ -7,4 +7,13 @@
   = f.text_area :body
   = f.label :files
   = f.file_field :files, multiple: true
+
+  b Links:
+
+  = f.fields_for :links do |l|
+    = l.label :name
+    = l.text_field :name
+    = l.label :url
+    = l.text_field :url
+
   = f.submit 'Ask', class: 'btn btn-success'
