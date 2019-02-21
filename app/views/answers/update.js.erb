@@ -9,7 +9,7 @@ var answer_p = document.getElementById('answer-<%= answer.id %>'),
   answerErrors.innerHTML = '<%= render 'shared/errors', resource: @answer %>';
 <% else %>
   inputFile.value = '';
-  answer_p.innerHTML = "<%= answer.body %>";
+  answer_p.innerHTML = "<%= j simple_format(answer.body) %>";
   attachmentsTable.innerHTML = '<%= render partial: 'attachments/attachment', collection: answer.files %>';
   fileList.innerHTML = '<%= render partial: 'shared/attachment', collection: answer.files %>';
   forma.classList.add('hidden');
