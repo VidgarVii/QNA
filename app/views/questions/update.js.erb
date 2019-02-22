@@ -16,6 +16,6 @@ var questionBlock = document.getElementsByClassName('question')[0],
   attachmentsTable.innerHTML = '<%= render partial: 'attachments/attachment', collection: question.files %>';
   questionBody.innerHTML = "<%= question.body %>";
   fileList.innerHTML = '<%= render partial: 'shared/attachment', collection: question.files %>';
-  linkList.innerHTML = '<%= render question.links %>';
+  linkList.innerHTML = '<%= j render question.links %>';
   forma.classList.add('hidden');
 <% end %>

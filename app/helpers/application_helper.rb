@@ -9,5 +9,15 @@ module ApplicationHelper
             method: :delete,
             remote: true,
             data: { confirm: 'Are you sure?'}
+  end
+
+  def gist(url)
+    service = GistService.new(url)
+
+    if service.gist_found?
+      simple_format(service.content)
+    else
+      "#{service.status} Not Found GIST"
     end
+  end
 end

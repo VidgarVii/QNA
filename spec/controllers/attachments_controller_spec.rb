@@ -9,20 +9,20 @@ RSpec.describe AttachmentsController, type: :controller do
   describe 'DELETE #destroy' do
 
     it 'delete attachment' do
-      sign_in(answer.author)
+      login(answer.author)
 
       expect { delete_file }.to change(ActiveStorage::Attachment, :count).by(-1)
     end
 
     it 're-render destroy view' do
-      sign_in(answer.author)
+      login(answer.author)
       delete_file
 
       expect(response).to render_template :destroy
     end
 
     it 'unable delete foreign files' do
-      sign_in(user)
+      login(user)
 
       expect { delete_file }.to_not change(ActiveStorage::Attachment, :count)
     end

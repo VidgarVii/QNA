@@ -8,10 +8,11 @@
   b Links:
   .edit_links
     = f.fields_for :links do |l|
-      = l.text_field :name, placeholder: 'name'
-      = l.text_field :url, placeholder: 'http://rusrails.ru'
-      = l.check_box :_destroy
-      = l.label :_destroy, class: 'fas fa-trash'
+      .field
+        = l.text_field :name, placeholder: 'name'
+        = l.text_field :url, placeholder: 'http://rusrails.ru'
+        = l.check_box :_destroy
+        = l.label :_destroy, class: 'fas fa-trash'
     .links
       = link_to_add_association 'add link', f, :links
 

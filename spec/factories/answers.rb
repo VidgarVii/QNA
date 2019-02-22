@@ -19,6 +19,14 @@ FactoryBot.define do
     after(:create) { |answer| create(:link, linkable: answer) }
   end
 
+  trait :with_answer_gist do
+    after(:create) { |answer| create(:link, :gist, linkable: answer) }
+  end
+
+  trait :with_answer_error_gist do
+    after(:create) { |answer| create(:link, :error_gist, linkable: answer) }
+  end
+
   trait :with_file do
     files { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
   end
