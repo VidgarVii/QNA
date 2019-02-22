@@ -8,3 +8,4 @@
 
 Автор вопроса, может выбрать лучший ответ.
 
+[DRAW](https://www.draw.io/#G15UFYRReuzyJAUVjjYvvJV1mvKlHQPFbr)
