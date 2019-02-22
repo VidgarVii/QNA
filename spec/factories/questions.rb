@@ -31,6 +31,10 @@ FactoryBot.define do
     body { "New Body" }
   end
 
+  trait :with_link do
+    after(:create) { |question| create(:link, linkable: question) }
+  end
+
   trait :with_answers do
     transient { count_answers { 5 } }
 

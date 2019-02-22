@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User can edit own question' do
+feature 'User can edit question' do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:google_url) { 'https://google.ru' }
@@ -21,10 +21,7 @@ feature 'User can edit own question' do
         fill_in 'Body', with: 'New Body'
         attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
-        fill_in 'Name', with: 'Google'
-        fill_in 'Url', with: google_url
         click_on 'add link'
-
         within '.nested-fields' do
           fill_in 'Name', with: 'GIST'
           fill_in 'Url', with: gist_url
@@ -40,7 +37,6 @@ feature 'User can edit own question' do
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'GIST', href: gist_url
-        expect(page).to have_link 'Google', href: google_url
       end
     end
 
@@ -57,7 +53,23 @@ feature 'User can edit own question' do
     end
   end
 
-  context 'User can remove files in own answer' do
+  context 'User can remove link during edit question' do
+    given(:question_with_link) { create(:question, :with_link) }
+
+    background do
+      sign_in(question_with_link.author)
+      visit question_path(question_with_link)
+      click_on 'Edit question'
+    end
+
+    scenario 'remove link', js: true  do
+      page.find('label.fas.fa-trash').click
+      click_on 'Save'
+      expect(page).to_not have_link 'rusrails'
+    end
+  end
+
+  context 'remove files in own answer' do
     given(:question) { create(:question, :with_files) }
 
     background do
@@ -67,14 +79,13 @@ feature 'User can edit own question' do
     end
 
     scenario 'remove files', js: true do
-      sleep 2
       within '.edit_question_form' do
         click_on 'Delete'
         click_on 'Save'
         sleep 2
-
-        expect(page).to_not have_link 'rails_helper.rb'
       end
+
+      expect(page).to_not have_link 'rails_helper.rb'
     end
   end
 
