@@ -1,24 +1,10 @@
-# README
+# QNA
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Учебный проект от школы Thinknetica.
 
-Things you may want to cover:
+Зарегистрированные пользователи могут задавать вопросы и отвечать на них.
 
-* Ruby version
+К вопросам и ответам можно прилагать ссылки и файлы.
 
-* System dependencies
+Автор вопроса, может выбрать лучший ответ.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
