@@ -1,0 +1,7 @@
+- if link.gist?
+  li.gist
+    = gist(link.url)
+    br
+    = link_to link.name, link.url, target: '_blank'
+- else
+  li = link_to link.name, link.url, target: '_blank'

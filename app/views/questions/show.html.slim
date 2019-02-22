@@ -2,7 +2,11 @@
   h2 = question.title
   p.author author: #{question.author.email}
   p.question_body = question.body
+  p.links Links
+  ul.links
+    = render question.links
 
+  p.links Files
   ul.attachments[id="quest_attached-#{question.id}"]
     - if question.files.attached?
       = render partial: 'shared/attachment', collection: question.files
@@ -11,7 +15,7 @@
   - if current_user&.author_of?(question)
     = link_to 'Edit question', '#', class: 'edit_question_link btn btn-info'
     div[id="js_quest_form-#{question.id}"]
-    = render 'edit_form', question: question
+      = render 'edit_form', question: question
 
 hr
 h3 Answers

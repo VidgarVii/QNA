@@ -7,9 +7,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = question.answers.order(best: :desc)
+    @answer = Answer.new
+    @link = @answer.links.build
   end
 
-  def new; end
+  def new
+    question.links.build
+  end
 
   def create
     @question = Question.new(question_params)
@@ -38,13 +42,13 @@ class QuestionsController < ApplicationController
 
   private
 
+  helper_method :question
+
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
-  helper_method :question
-
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy])
   end
 end

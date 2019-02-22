@@ -8,8 +8,6 @@ feature 'User can see questions', "
   scenario 'User can see 3 questions' do
     visit root_path
 
-    p questions
-
     expect(page.find_all('li.question').count).to eq 3
 
     questions.each do |question|

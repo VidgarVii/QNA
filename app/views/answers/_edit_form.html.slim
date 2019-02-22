@@ -4,6 +4,18 @@
   = f.text_area :body, id: "answer_body_update-#{answer.id}"
   = f.label :files, for: "answer_files_update-#{answer.id}"
   = f.file_field :files, multiple: true, direct_upload: true, id: "answer_files_update-#{answer.id}"
+
+  b Links:
+  .edit_links
+    = f.fields_for :links do |l|
+      .field
+        = l.text_field :name, placeholder: 'name'
+        = l.text_field :url, placeholder: 'http://rusrails.ru'
+        = l.check_box :_destroy
+        = l.label :_destroy, class: 'fas fa-trash'
+    .links
+      = link_to_add_association 'add link', f, :links
+
   .files
     table.answer_attachments
       - if answer.files.attached?

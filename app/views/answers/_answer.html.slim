@@ -2,6 +2,9 @@ li[class='answer' data-best_answer="#{answer.best}"]
   = best_button 'Best', answer, 'btn btn-info best'
   div[id="answer-#{answer.id}"] = simple_format(answer.body)
 
+  ul.links[id="links-#{answer.id}"]
+    = render answer.links
+
   ol.attachments[id="answer_attached-#{answer.id}"]
     - if answer.files.attached?
       = render partial: 'shared/attachment', collection: answer.files

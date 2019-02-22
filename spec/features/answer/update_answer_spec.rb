@@ -5,6 +5,8 @@ feature 'User can update own answer' do
   given(:answer) { create(:answer) }
 
   context 'User can edit own answer' do
+    given(:gist_url) { 'https://gist.github.com/VidgarVii/5d57bfba7d270fe169a8189fa5c28575' }
+
     background do
       sign_in(answer.author)
       visit question_path(answer.question)
@@ -15,6 +17,13 @@ feature 'User can update own answer' do
       within '.answer' do
         fill_in 'Body', with: 'Edited answer'
         attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'add link'
+
+        within '.nested-fields' do
+          fill_in 'Name', with: 'GIST'
+          fill_in 'Url', with: gist_url
+        end
+
         click_on 'Save'
 
         expect(page).to_not have_selector 'textarea'
@@ -22,6 +31,7 @@ feature 'User can update own answer' do
         expect(page).to have_content 'Edited answer'
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+        expect(page).to have_link 'GIST', href: gist_url
       end
     end
 
@@ -32,6 +42,25 @@ feature 'User can update own answer' do
 
         expect(page).to have_selector 'textarea'
         expect(page).to have_content "Body can't be blank"
+      end
+    end
+  end
+
+  context 'User can remove link during edit answer' do
+    given(:answer_with_link) { create(:answer, :answer_with_link) }
+
+    background do
+      sign_in(answer_with_link.author)
+      visit question_path(answer_with_link.question)
+    end
+
+    scenario 'remove link', js: true  do
+      within '.answer' do
+        click_on 'Edit'
+        page.find('label.fas.fa-trash').click
+        click_on 'Save'
+
+        expect(page).to_not have_link 'rusrails'
       end
     end
   end

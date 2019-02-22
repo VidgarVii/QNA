@@ -4,6 +4,17 @@
   = f.text_field :title
   = f.label :body, for: "question_body_update-#{question.id}"
   = f.text_area :body, id: "question_body_update-#{question.id}"
+
+  b Links:
+  .edit_links
+    = f.fields_for :links do |l|
+      = l.text_field :name, placeholder: 'name'
+      = l.text_field :url, placeholder: 'http://rusrails.ru'
+      = l.check_box :_destroy
+      = l.label :_destroy, class: 'fas fa-trash'
+    .links
+      = link_to_add_association 'add link', f, :links
+
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
   .files
