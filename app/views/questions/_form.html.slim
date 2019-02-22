@@ -16,6 +16,6 @@
       = l.label :url
       = l.text_field :url
     .links
-      = link_to_add_association 'add link', f, :links
+      = link_to_add_association 'add link', f, :links, role: 'button'
 
   = f.submit 'Ask', class: 'btn btn-success'

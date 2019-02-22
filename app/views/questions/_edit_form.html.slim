@@ -13,7 +13,7 @@
       = l.check_box :_destroy
       = l.label :_destroy, class: 'fas fa-trash'
     .links
-      = link_to_add_association 'add link', f, :links
+      = link_to_add_association 'add link', f, :links, role: 'button'
 
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
