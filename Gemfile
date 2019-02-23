@@ -25,6 +25,7 @@ gem 'cocoon'
 gem 'jquery-rails'
 gem 'font-awesome-sass', '~> 5.6.1'
 gem "octokit", "~> 4.0"
+gem 'active_storage_validations'
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'

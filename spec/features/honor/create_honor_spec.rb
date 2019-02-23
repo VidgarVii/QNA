@@ -14,23 +14,27 @@ feature 'Question author can make Honor', "
       visit new_question_path
 
       click_on 'Create Honor'
-    end
 
-    scenario 'valid image' do
-      within '.honor' do
-        fill_in 'Name', with: 'Test Honor'
-        attach_file 'Image', "#{Rails.root}/spec/fixtures/images/ruby.png"
-
-        expect(page).to have_content 'Test Honor'
-        expect(page).to have_xpath 'img'
+      within '#honor_form' do
+        fill_in 'question_honor_attributes_name', with: 'Test Honor'
+        attach_file 'question_image', "#{Rails.root}/spec/fixtures/images/ruby.png", make_visible: true
       end
     end
 
-    scenario 'invalid image' do
-      within '.honor' do
-        fill_in 'Name', with: 'Test Honor'
-        attach_file 'Image', "#{Rails.root}/spec/fixtures/images/big.jpg"
+    scenario 'have image to create question', js: true do
+      expect(page.find('#honor_image')['src']).to have_content 'blob'
+    end
 
+    scenario 'have honor to page question', js: true do
+      fill_in 'Title', with: 'Some Title'
+      fill_in 'Body', with: 'Text'
+      click_on 'Ask'
+
+      click_on 'Honor'
+
+      within '.honor_block' do
+        expect(page).to have_content 'Test Honor'
+        expect(page.find('#honor_image')['src']).to have_content 'blob'
       end
     end
   end

@@ -3,5 +3,9 @@ class Honor < ApplicationRecord
 
   has_one_attached :image
 
-  validates :name, :image, presence: true
+  validates :name, presence: true
+
+  validates :image, attached: true,
+            content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+            size: { less_than: 500.kilobytes }
 end
