@@ -8,7 +8,7 @@
   = f.label :files
   = f.file_field :files, multiple: true
 
-  b Links:
+  h4 Links:
   #links
     = f.fields_for :links do |l|
       = l.label :name
@@ -17,5 +17,12 @@
       = l.text_field :url
     .links
       = link_to_add_association 'add link', f, :links, role: 'button'
+  h4 Honor
+  #honor
+    = f.fields_for :honor do |l|
+      = l.label :name
+      = l.text_field :name
+      = f.label :files
+      = f.file_field :files, multiple: true
 
   = f.submit 'Ask', class: 'btn btn-success'

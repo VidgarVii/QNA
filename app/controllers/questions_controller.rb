@@ -7,16 +7,17 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = question.answers.order(best: :desc)
-    @answer = Answer.new
-    @link = @answer.links.build
+    @answer  = Answer.new
+    @link    = @answer.links.build
   end
 
   def new
     question.links.build
+    @honor = question.build_honor
   end
 
   def create
-    @question = Question.new(question_params)
+    @question        = Question.new(question_params)
     @question.author = current_user
 
     if @question.save
@@ -49,6 +50,8 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy])
+    params.require(:question).permit(:title, :body, files: [],
+                                     links_attributes: [:id, :name, :url, :_destroy],
+                                     honor_attributes: [:id, :name, :file])
   end
 end
