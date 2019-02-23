@@ -22,10 +22,10 @@
 
   #honor_form.hidden
     .form
-      = f.fields_for :honor do |l|
-        = l.text_field :name, placeholder: 'name'
-        = f.file_field :image
+      = f.fields_for :honor do |h|
+        = h.text_field :name, placeholder: 'name'
+        = h.file_field :image, accept: 'mage/jpeg,image/png'
         img#honor_image
-        = f.label :image, 'Add image'
+        = h.label :image, 'Add image'
 
   = f.submit 'Ask', class: 'btn btn-primary'

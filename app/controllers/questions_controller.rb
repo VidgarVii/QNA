@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.build
-    @honor = question.build_honor
+    @honor = question.build_honor(params[:image])
   end
 
   def create
@@ -52,6 +52,6 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body, files: [],
                                      links_attributes: [:id, :name, :url, :_destroy],
-                                     honor_attributes: [:name, image: []])
+                                     honor_attributes: [:name, :image])
   end
 end
