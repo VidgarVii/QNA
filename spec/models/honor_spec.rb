@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Honor, type: :model do
-  it { should have_and_belong_to_many :users }
-  it { should belong_to                    :question }
+  it { should belong_to(:user).optional }
+  it { should belong_to :question }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :image }
@@ -23,16 +23,7 @@ RSpec.describe Honor, type: :model do
       honor.grand(answer.author)
       honor.reload
 
-      expect(honor.users.first).to eq answer.author
-    end
-
-    it 'grand honor user must bo one' do
-      honor.grand(answer.author)
-      honor.reload
-      honor.grand(answer_2.author)
-      honor.reload
-
-      expect(honor.users.count).to eq 1
+      expect(honor.user).to eq answer.author
     end
   end
 end

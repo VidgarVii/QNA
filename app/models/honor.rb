@@ -1,9 +1,9 @@
 class Honor < ApplicationRecord
 
-  has_one_attached        :image
-  has_and_belongs_to_many :users
+  has_one_attached :image
 
   belongs_to :question
+  belongs_to :user, optional: true
 
   validates :name, presence: true
 
@@ -12,7 +12,7 @@ class Honor < ApplicationRecord
             size: { less_than: 500.kilobytes }
 
   def grand(author)
-    users.delete_all
-    author.honors.push(self)
+    self.user = author
+    save!
   end
 end

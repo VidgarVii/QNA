@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_24_102822) do
+ActiveRecord::Schema.define(version: 2019_02_23_115243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,16 +50,11 @@ ActiveRecord::Schema.define(version: 2019_02_24_102822) do
   create_table "honors", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "question_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_honors_on_question_id"
-  end
-
-  create_table "honors_users", id: false, force: :cascade do |t|
-    t.bigint "honor_id"
-    t.bigint "user_id"
-    t.index ["honor_id"], name: "index_honors_users_on_honor_id"
-    t.index ["user_id"], name: "index_honors_users_on_user_id"
+    t.index ["user_id"], name: "index_honors_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
