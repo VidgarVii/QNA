@@ -3,7 +3,9 @@
 
   - if question.honor
     = link_to Honor, '#', id: 'show_honor'
-    = render question.honor
+    .honor_block.hidden
+      = question.honor.name
+      = image_tag url_for(question.honor.image)
 
   p.author author: #{question.author.email}
   p.question_body = question.body
