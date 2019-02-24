@@ -1,7 +1,8 @@
 class Answer < ApplicationRecord
-  has_many :links, dependent: :destroy, as: :linkable
+  has_many   :links, dependent: :destroy, as: :linkable
+
   belongs_to :question, counter_cache: true
-  belongs_to :author, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :author,   class_name: 'User', foreign_key: 'user_id'
 
   has_many_attached :files
 

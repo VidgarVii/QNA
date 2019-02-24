@@ -18,6 +18,10 @@ FactoryBot.define do
     end
   end
 
+  trait :with_honor do
+    association :honor, factory: :honor
+  end
+
   trait :with_files do
     files { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
   end

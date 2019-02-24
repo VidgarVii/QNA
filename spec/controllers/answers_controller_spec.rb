@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:author) { create(:user) }
-  let(:question) { create(:question, author: author) }
+  let(:question) { create(:question, :with_honor, author: author) }
   let(:answer) { create(:answer, author: author, question: question) }
   let(:user) { create(:user) }
 
@@ -155,6 +155,13 @@ RSpec.describe AnswersController, type: :controller do
         answer.reload
 
         expect(answer).to be_best
+      end
+
+      it 'grand honor' do
+        make_the_best
+        answer.reload
+
+        expect(answer.author.honors.first).to eq question.honor
       end
 
       it 're-render template set_best' do

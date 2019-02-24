@@ -53,6 +53,10 @@ feature 'Question author can make Honor', "
         expect(page).to have_content 'Test Honor'
         expect(page.find('img')['src']).to have_content 'blob'
       end
+
+      click_on 'Honor'
+
+      expect(page).to_not have_content 'Test Honor'
     end
   end
 end
