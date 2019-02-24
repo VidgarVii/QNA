@@ -70,7 +70,7 @@ GEM
     bindex (0.5.0)
     bootsnap (1.4.0)
       msgpack (~> 1.0)
-    bootstrap (4.2.1)
+    bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
@@ -324,7 +324,7 @@ DEPENDENCIES
   active_storage_validations
   aws-sdk-s3
   bootsnap (>= 1.1.0)
-  bootstrap (~> 4.2.1)
+  bootstrap (~> 4.3.1)
   byebug
   capybara (>= 2.15)
   chromedriver-helper
