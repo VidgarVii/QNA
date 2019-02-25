@@ -2,8 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "questions#index"
 
-  resources :honors, only: :index
-
+  resources :honors,      only: :index
   resources :attachments, only: :destroy
 
   resources :questions, except: :edit do
