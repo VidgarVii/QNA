@@ -19,7 +19,6 @@ class AnswersController < ApplicationController
 
   def set_best
     answer.make_the_best
-    honor&.grand(answer.author)
 
     @answers = answer.question.answers.order(best: :desc)
   end
@@ -27,10 +26,6 @@ class AnswersController < ApplicationController
   private
 
   helper_method :answer, :question
-
-  def honor
-    answer.question.honor
-  end
 
   def question_author!
     head :forbidden unless current_user&.author_of?(answer.question)

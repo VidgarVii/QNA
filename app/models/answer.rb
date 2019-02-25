@@ -15,6 +15,7 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
+      question.honor&.grand(author)
     end
   end
 end

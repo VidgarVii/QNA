@@ -12,7 +12,6 @@ class Honor < ApplicationRecord
             size: { less_than: 500.kilobytes }
 
   def grand(author)
-    self.user = author
-    save!
+    update!(user: author)
   end
 end
