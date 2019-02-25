@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = question.answers.order(best: :desc)
+    @answers = question.answers.includes(:links).with_attached_files.order(best: :desc)
     @answer  = Answer.new
     @link    = @answer.links.build
   end
