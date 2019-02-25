@@ -8,6 +8,6 @@ class HonorsController < ApplicationController
   helper_method :honors
 
   def honors
-    current_user.honors.with_attached_image
+    current_user.honors.with_attached_image.includes(:question)
   end
 end
