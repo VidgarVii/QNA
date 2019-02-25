@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.build
-    @honor = question.build_honor(params[:image])
+    @honor = question.build_honor
   end
 
   def create
@@ -46,7 +46,6 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question
-    # @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
     @question ||= Question.with_attached_files.find_or_initialize_by(id: params[:id])
   end
 
