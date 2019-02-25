@@ -46,7 +46,8 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question
-    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    # @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    @question ||= Question.with_attached_files.find_or_initialize_by(id: params[:id])
   end
 
   def question_params

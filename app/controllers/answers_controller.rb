@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :answer_author!, only: %i[update destroy]
 
   def create
-    @answer = question.answers.new(answer_params)
+    @answer        = question.answers.new(answer_params)
     @answer.author = current_user
     @answer.save
   end
@@ -45,7 +45,7 @@ class AnswersController < ApplicationController
   end
 
   def answer
-    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
+    @answer ||= Answer.with_attached_files.find_or_initialize_by(id: params[:id])
   end
 
   def answer_params
