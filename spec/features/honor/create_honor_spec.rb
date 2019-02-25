@@ -38,6 +38,16 @@ feature 'Question author can make Honor', "
       expect(page).to have_content 'Honor image has an invalid content type'
     end
 
+    scenario 'invalid BIG files', js: true do
+      within '#honor_form' do
+        attach_file 'Add image', "#{Rails.root}/spec/fixtures/images/big.png", make_visible: true
+      end
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Honor image size'
+    end
+
     scenario 'have honor to page question', js: true do
       fill_in 'Title', with: 'Some Title'
       fill_in 'Body', with: 'Text'
