@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_200735) do
   end
 
   create_table "ratings", force: :cascade do |t|
-    t.integer "score"
+    t.integer "score", default: 0
     t.string "rateable_type"
     t.bigint "rateable_id"
     t.datetime "created_at", null: false

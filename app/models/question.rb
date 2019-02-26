@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include Fileable
   include Linkable
+  include Rateable
 
   has_one :honor, dependent: :destroy
 

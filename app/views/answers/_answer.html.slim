@@ -1,19 +1,23 @@
 li[class='answer' data-best_answer="#{answer.best}"]
-  = best_button 'Best', answer, 'btn btn-info best'
-  div[id="answer-#{answer.id}"] = simple_format(answer.body)
+  .body
+    = best_button 'Best', answer, 'btn btn-info best'
+    div[id="answer-#{answer.id}"] = simple_format(answer.body)
 
-  ul.links[id="links-#{answer.id}"]
-    = render answer.links
+    ul.links[id="links-#{answer.id}"]
+      = render answer.links
 
-  ol.attachments[id="answer_attached-#{answer.id}"]
-    - if answer.files.attached?
-      = render partial: 'shared/attachment', collection: answer.files
+    ol.attachments[id="answer_attached-#{answer.id}"]
+      - if answer.files.attached?
+        = render partial: 'shared/attachment', collection: answer.files
 
-  p.author author: #{answer.author.email}
-  = delete_btn(answer)
+    p.author author: #{answer.author.email}
+    = delete_btn(answer)
 
-  - if current_user&.author_of?(answer)
-    = link_to 'Edit', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
+    - if current_user&.author_of?(answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
 
-    div[id="js_form-#{answer.id}"]
-      = render 'answers/edit_form', answer: answer
+      div[id="js_form-#{answer.id}"]
+        = render 'answers/edit_form', answer: answer
+
+  .vote[id="vote-answer-#{answer.id}"]
+    = render question.rating, resource: answer

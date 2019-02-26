@@ -1,0 +1,13 @@
+= link_to '', polymorphic_path(resource, action: :rating_up),
+        role:   'button',
+        class:  'fa fa-caret-up rating_up',
+        method: :patch,
+        remote: true
+
+span.rating = resource.rate
+
+= link_to '', polymorphic_path(resource, action: :rating_down),
+        role:   'button',
+        class:  'fa fa-caret-down rating_down',
+        method: :patch,
+        remote: true

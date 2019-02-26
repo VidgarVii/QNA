@@ -32,4 +32,6 @@ RSpec.describe Answer, type: :model do
       expect(best_answer).to_not be_best
     end
   end
+
+  include_examples "ratings", :answer
 end

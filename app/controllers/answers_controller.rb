@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Rated
+
   before_action :authenticate_user!
   before_action :question_author!, only: :set_best
   before_action :answer_author!, only: %i[update destroy]
