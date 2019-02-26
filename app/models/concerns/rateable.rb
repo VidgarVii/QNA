@@ -11,16 +11,20 @@ module Rateable
     rating.score
   end
 
-  def rate_up
-    return if user_id == current_user.id
-
-    rating.update!(score: rating.score.next)
+  def rate_up(user)
+    if user.author_of?(self)
+      false
+    else
+      rating.update!(score: rating.score.next)
+    end
   end
 
-  def rate_down
-    return if user_id == current_user.id
-
-    rating.update!(score: rating.score.pred)
+  def rate_down(user)
+    if user.author_of?(self)
+      false
+    else
+      rating.update!(score: rating.score.pred)
+    end
   end
 
   private

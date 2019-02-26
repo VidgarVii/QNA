@@ -13,7 +13,7 @@ document.addEventListener('turbolinks:load', () => {
   let errorRating = (e) => {
     var error = document.getElementsByClassName('alert-danger')[0];
 
-    error.innerText = e.detail[0]
+    error.innerText = e.detail[0].access ? e.detail[0].access : e.detail[0]
   };
 
   if (vote) vote.addEventListener('ajax:success', setQuestionRating);

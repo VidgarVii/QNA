@@ -3,11 +3,11 @@ module Rated
 
   def rating_up
     respond_to do |format|
-      if object.rate_up
-        format.json { render json: object.rate }
+      if object.rate_up(current_user)
+        format.json { render json: object.rating }
       else
         format.json do
-          render json: object.rating.errors.full_messages,
+          render json: {access: 'No access'},
                  status: :forbidden
         end
       end
@@ -16,11 +16,11 @@ module Rated
 
   def rating_down
     respond_to do |format|
-      if object.rate_down
-        format.json { render json: object.rate }
+      if object.rate_down(current_user)
+        format.json { render json: object.rating }
       else
         format.json do
-          render json: object.rating.errors.full_messages,
+          render json: {access: 'No access'},
                  status: :forbidden
         end
       end

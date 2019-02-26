@@ -11,8 +11,6 @@ class QuestionsController < ApplicationController
     @answers = question.answers.includes(:links).with_attached_files.order(best: :desc)
     @answer  = Answer.new
     @link    = @answer.links.build
-
-    console
   end
 
   def new
