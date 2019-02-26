@@ -12,10 +12,14 @@ module Rateable
   end
 
   def rate_up
+    return if user_id == current_user.id
+
     rating.update!(score: rating.score.next)
   end
 
   def rate_down
+    return if user_id == current_user.id
+
     rating.update!(score: rating.score.pred)
   end
 

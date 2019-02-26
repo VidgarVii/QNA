@@ -118,4 +118,19 @@ feature 'Authenticated user can vote for the question/answer',"
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
+
+  context 'User unable to vote for own question/answer' do
+    background do
+      sign_in(question.author)
+      visit question_path(question)
+    end
+
+    scenario 'error', js: true do
+      within "#question-#{question.id}" do
+        find('.fa-caret-down').click
+
+        expect(find('.rating')).to have_content '0'
+      end
+    end
+  end
 end
