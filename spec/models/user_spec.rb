@@ -38,4 +38,20 @@ RSpec.describe User, type: :model do
       expect(user.has_right_down_rate?(question.rating)).to be_truthy
     end
   end
+
+  context 'No Right for vote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:vote) { create(:vote, user: user, rating: question.rating, state: 1) }
+
+    it 'has_right_up_rate?' do
+      expect(user.has_right_up_rate?(question.rating)).to be_falsey
+    end
+
+    it 'has_right_down_rate?' do
+      vote.update(state: -1)
+
+      expect(user.has_right_down_rate?(question.rating)).to be_falsey
+    end
+  end
 end

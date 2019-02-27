@@ -2,15 +2,10 @@ module Rated
   extend ActiveSupport::Concern
 
   def rating_up
-    respond_to do |format|
-      if object.rate_up(current_user)
-        format.json { render json: object.rating }
-      else
-        format.json do
-          render json: {access: 'No access'},
-                 status: :forbidden
-        end
-      end
+    if object.rate_up(current_user)
+      render json: object.rating
+    else
+      render json: {access: 'No access'}, status: :forbidden
     end
   end
 
