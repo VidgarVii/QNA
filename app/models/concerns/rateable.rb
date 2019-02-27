@@ -12,22 +12,28 @@ module Rateable
   end
 
   def rate_up(user)
-    if user.author_of?(self)
-      false
-    else
+    return false if user.author_of?(self) || !user.has_right_up_rate?(rating)
+
+    transaction do
       rating.update!(score: rating.score.next)
+      vote(user).state_up
     end
   end
 
   def rate_down(user)
-    if user.author_of?(self)
-      false
-    else
+    return false if user.author_of?(self) || !user.has_right_down_rate?(rating)
+
+    transaction do
       rating.update!(score: rating.score.pred)
+      vote(user).state_down
     end
   end
 
   private
+
+  def vote(user)
+    @vote ||= Vote.find_by(rating: rating, user: user)
+  end
 
   def create_rating
     create_rating!
