@@ -1,5 +1,10 @@
 class AnswersChannel < ApplicationCable::Channel
-  def subscribed(id)
-    stream_from "publish_answer_#{id}"
+  def follow(data)
+    stop_all_streams
+    stream_from "publish_answer_for-#{data['id']}"
+  end
+
+  def unfollow
+    stop_all_streams
   end
 end

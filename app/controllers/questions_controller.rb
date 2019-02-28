@@ -7,8 +7,6 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-
-    gon.push template: 'questions#index'
   end
 
   def show
@@ -16,7 +14,6 @@ class QuestionsController < ApplicationController
     @answer  = Answer.new
     @link    = @answer.links.build
 
-    gon.push template: 'questions#show'
     gon.push question_id: question.id
   end
 
