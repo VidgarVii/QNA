@@ -1,5 +1,5 @@
 class QuestionsChannel < ApplicationCable::Channel
-  def show
-    stream_from 'questions_channel'
+  def follow
+    stream_from 'publish_question'
   end
 end

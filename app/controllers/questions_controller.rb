@@ -7,12 +7,17 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+
+    gon.push template: 'questions#index'
   end
 
   def show
     @answers = question.answers.includes(:links).with_attached_files.order(best: :desc)
     @answer  = Answer.new
     @link    = @answer.links.build
+
+    gon.push template: 'questions#show'
+    gon.push question_id: question.id
   end
 
   def new
@@ -53,10 +58,10 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
 
     ActionCable.server.broadcast(
-        'questions_channel',
+        'publish_question',
         ApplicationController.render(
-        partial: 'questions/question',
-        locals: { question: question }
+          partial: 'questions/question',
+          locals: { question: question }
         )
     )
   end
