@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   include Rated
 
+  after_action :publish_question, only: :create
+
   before_action :authenticate_user!, except: %i[index show]
 
   def index
@@ -46,6 +48,18 @@ class QuestionsController < ApplicationController
   private
 
   helper_method :question
+
+  def publish_question
+    return if question.errors.any?
+
+    ActionCable.server.broadcast(
+        'questions_channel',
+        ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: question }
+        )
+    )
+  end
 
   def question
     @question ||= Question.with_attached_files.find_or_initialize_by(id: params[:id])
