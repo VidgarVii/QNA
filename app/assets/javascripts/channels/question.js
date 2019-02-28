@@ -1,26 +1,26 @@
 document.addEventListener('turbolinks:load', () => {
 
-  if (!App.questions_channel) {
-    App.questions_channel = App.cable.subscriptions.create('QuestionsChannel', {
-      connected() {
-        this.perform('follow');
-      },
+  if (App.questions_channel) return subscribeToQuestion();
 
-      received(data) {
-        console.log('RECEIVED');
-        console.log(questionList);
-        var block = document.createElement('div'),
-            questionList = document.getElementsByClassName('questions_list')[0];
+  App.questions_channel = App.cable.subscriptions.create('QuestionsChannel', {
+    connected() {
+      subscribeToQuestion();
+    },
 
-        block.innerHTML = data;
-        questionList.append(block);
-      }
-    });
-  }
+    received(data) {
+      var block = document.createElement('div'),
+          questionList = document.getElementsByClassName('questions_list')[0];
 
-  if(App.questions_channel && document.getElementsByClassName('questions_list')[0]){
-    App.questions_channel.perform('follow');
-  } else {
-    App.questions_channel.perform('unfollow');
+      block.innerHTML = data;
+      questionList.append(block);
+    }
+  });
+
+  subscribeToQuestion = () => {
+    if (document.getElementsByClassName('questions_list')[0]) {
+      return App.questions_channel.perform('follow');
+    } else {
+      return App.questions_channel.perform('unfollow');
+    }
   }
 });
