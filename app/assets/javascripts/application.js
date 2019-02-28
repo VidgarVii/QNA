@@ -15,6 +15,7 @@
 //= require cocoon
 //= require action_cable
 //= require activestorage
+//= require pug-runtime-2.0.2
 //= require turbolinks
 //= require_tree .
 

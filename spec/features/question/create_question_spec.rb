@@ -56,16 +56,16 @@ feature 'User can create question', "
     given(:user) { create(:user) }
 
     scenario "question appears on another user's page", js: true do
-      Capybara.using_session('user') do
+      using_session('user') do
         sign_in(user)
         visit questions_path
       end
 
-      Capybara.using_session('guest') do
+      using_session('guest') do
         visit questions_path
       end
 
-      Capybara.using_session('user') do
+      using_session('user') do
         click_on 'Ask question'
         fill_in 'Title', with: 'Some Title'
         fill_in 'Body', with: 'Text'
@@ -76,7 +76,7 @@ feature 'User can create question', "
         expect(page).to have_content 'Text'
       end
 
-      Capybara.using_session('guest') do
+      using_session('guest') do
         expect(page).to have_content 'Some Title'
       end
     end
