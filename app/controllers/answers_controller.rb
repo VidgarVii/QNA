@@ -34,10 +34,10 @@ class AnswersController < ApplicationController
   def publish_answer
     return if answer.errors.any?
 
-    ActionCable.server.broadcast(
-        "publish_answer",
-        answer
-    )
+    # ActionCable.server.broadcast(
+    #     "publish_answer",
+    #     answer
+    # )
   end
 
   def question_author!

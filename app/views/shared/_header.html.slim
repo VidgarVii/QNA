@@ -1,8 +1,11 @@
-- if user_signed_in?
-  p "Hello #{current_user.email}"
-  = link_to 'Honors', honors_path
-  = link_to t('exit'), destroy_user_session_path, method: :delete
-- else
-  = link_to t('signin'), new_user_session_path
-  = link_to t('signup'), new_user_registration_path
-hr
+.header
+  h1 = link_to 'QNA', root_path
+  .authenticated
+    - if user_signed_in?
+      p "Hello #{current_user.email}"
+      = link_to 'Honors', honors_path
+      = link_to t('exit'), destroy_user_session_path, method: :delete
+    - else
+      = link_to t('signin'), new_user_session_path
+      = link_to t('signup'), new_user_registration_path
+  hr
