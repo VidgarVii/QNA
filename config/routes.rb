@@ -6,8 +6,9 @@ Rails.application.routes.draw do
     patch 'rating-up', on: :member
     patch 'rating-down', on: :member
   end
+
   concern :commentable do
-    resources :comments, shallow: true
+    resources :comments, only: :create
   end
 
   resources :honors,      only: :index

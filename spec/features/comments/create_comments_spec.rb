@@ -16,7 +16,7 @@ feature 'Authenticated user can create comments for questions/answers' do
       click_on 'add a comment'
 
       fill_in 'comment', with: 'Some comment'
-      click_on 'Comment'
+      click_on 'Create Comment'
 
       expect(page.find('form.comment')).to_not be_visible
 
