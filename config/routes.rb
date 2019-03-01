@@ -6,12 +6,15 @@ Rails.application.routes.draw do
     patch 'rating-up', on: :member
     patch 'rating-down', on: :member
   end
+  concern :commentable do
+    resources :comments, shallow: true
+  end
 
   resources :honors,      only: :index
   resources :attachments, only: :destroy
 
-  resources :questions, except: :edit, concerns: :ratable do
-    resources :answers, shallow: true, concerns: :ratable, only: %i[create update destroy] do
+  resources :questions, except: :edit, concerns: %i[ratable commentable] do
+    resources :answers, shallow: true, concerns: %i[ratable commentable], only: %i[create update destroy] do
       patch 'set_best', on: :member
     end
   end

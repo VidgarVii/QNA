@@ -19,5 +19,9 @@ li[class='answer' data-best_answer="#{answer.best}"]
       div[id="js_form-#{answer.id}"]
         = render 'answers/edit_form', answer: answer
 
+    = link_to 'add a comment', '#', remote: true, class: "add_a_comment",
+            title: 'create a comment', data: {id: answer.id}
+    = render 'comments/form', resource: answer
+
   .vote[id="vote-answer-#{answer.id}"]
     = render question.rating, resource: answer
