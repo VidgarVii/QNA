@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:comments).dependent(:destroy) }
   it { should belong_to(:question).counter_cache(true) }
   it { should belong_to :author }
 

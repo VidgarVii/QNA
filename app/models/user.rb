@@ -5,9 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :questions
+  has_many :comments, dependent: :destroy
   has_many :answers
   has_many :honors
-  has_many :votes, dependent: :destroy
+  has_many :votes,    dependent: :destroy
 
   def author_of?(resource)
     resource.user_id == id
