@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
     @link    = @answer.links.build
 
     gon.push question_id: question.id
+    gon.push user_id: current_user.id
   end
 
   def new

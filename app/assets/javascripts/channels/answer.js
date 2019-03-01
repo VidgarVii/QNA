@@ -1,26 +1,42 @@
 document.addEventListener('turbolinks:load', () => {
 
-  if (App.answers_channel) return subscribeToAnswer();
+  var question = document.getElementsByClassName('question')[0];
+  var answersList = document.getElementsByClassName('answers_list')[0];
 
-  App.answers_channel = App.cable.subscriptions.create('AnswersChannel', {
-    connected() {
-      subscribeToAnswer();
-    },
+  if (question && answersList) {
+    var questionId = question.dataset.id;
 
-    received(data) {
-      var block = document.createElement('div'),
-          answersList = document.getElementsByClassName('answers_list')[0];
+    // if (App.answers_channel) return subscribeToAnswer();
 
-      block.innerHTML = data;
-      answersList.append(block);
-    }
-  });
+    App.answers_channel = App.cable.subscriptions.create(
+      {'channel': 'AnswersChannel', 'question_id': questionId}, {
+        connected() {
+          subscribeToAnswer();
+        },
 
-  subscribeToAnswer = () => {
-    if (document.getElementsByClassName('answers_list')[0]) {
-      return App.answers_channel.perform('follow', {data: gon.question_id});
-    } else {
-      return App.answers_channel.perform('unfollow');
+        received(data) {
+          if (gon.user_id != data.user_id) {
+            console.log(data);
+          }
+
+          // var block = document.createElement('div'),
+          //     answersList = document.getElementsByClassName('answers_list')[0];
+          //
+          // block.innerHTML = data;
+          // answersList.append(block);
+        }
+      });
+
+    subscribeToAnswer = () => {
+
+      var question = document.getElementsByClassName('question')[0],
+        questionId = question.dataset.id;
+
+      if (document.getElementsByClassName('answers_list')[0]) {
+        return App.answers_channel.perform('follow');
+      } else {
+        return App.answers_channel.perform('unfollow');
+      }
     }
   }
 });

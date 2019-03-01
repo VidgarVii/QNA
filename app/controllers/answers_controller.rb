@@ -35,7 +35,7 @@ class AnswersController < ApplicationController
     return if answer.errors.any?
 
     ActionCable.server.broadcast(
-        "publish_answer_for-#{params[:id]}",
+        "publish_answer_for_#{answer.question_id}",
         answer
     )
   end
