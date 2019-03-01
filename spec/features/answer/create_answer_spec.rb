@@ -7,7 +7,7 @@ feature 'User can create answer', "
 " do
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  context 'Authenticated user' do
     given(:user) { create(:user) }
 
     background do
@@ -46,5 +46,38 @@ feature 'User can create answer', "
     click_on 'Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
+
+  context "mulitple sessions" do
+    given(:user) { create(:user) }
+
+    scenario "answer appears on another user's page", js: true do
+      using_session('user') do
+        sign_in(user)
+
+        visit question_path(question)
+      end
+
+      using_session('guest') do
+        visit question_path(question)
+      end
+
+      using_session('user') do
+        fill_in 'Body', with: 'Text'
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Answer'
+
+        expect(page).to have_css('.answer', count: 1)
+        expect(page).to have_content 'Text'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+
+      using_session('guest') do
+        expect(page).to have_content 'Text'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+    end
   end
 end

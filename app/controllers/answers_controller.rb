@@ -34,9 +34,17 @@ class AnswersController < ApplicationController
   def publish_answer
     return if answer.errors.any?
 
+    files = []
+    answer.files.each do |file|
+      files << { url: url_for(file), name: file.filename.to_s }
+    end
+
     ActionCable.server.broadcast(
         "publish_answer_for_#{answer.question_id}",
-        answer
+        { answer: answer,
+          links: answer.links,
+          files: files,
+          author: answer.author.email }
     )
   end
 

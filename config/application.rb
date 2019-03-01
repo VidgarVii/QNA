@@ -25,7 +25,5 @@ module Qna
     end
 
     config.sass.preferred_syntax = :sass
-
-    Rails.application.config.assets.paths << Rails.root.join("app/assets/templates")
   end
 end

@@ -14,6 +14,7 @@
 //= require jquery3
 //= require cocoon
 //= require activestorage
-//= require pug-runtime-2.0.2
+//= require skim
 //= require turbolinks
 //= require_tree .
+
