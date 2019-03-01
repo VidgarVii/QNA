@@ -4,22 +4,25 @@ RSpec.describe CommentsController, type: :controller do
   let(:question) { create(:question) }
   let(:comment) { create(:comment) }
   let(:user) { create(:user) }
+  let(:create_comment) { post :create, params: { comment: attributes_for(:comment),
+                                                 question_id: question.id,
+                                                 user_id: user.id }, format: :js }
 
   describe 'POST #create' do
     before { login(user) }
 
-    it 'with valid attribute' do
-      post :create, params: { comment: attributes_for(:comment),
-                              question_id: question.id,
-                              user_id: user.id }, format: :js
+    it 'render template create' do
+      create_comment
 
-      expect(response).to have_http_status 200
+      expect(response).to render_template :create
+    end
+
+    it 'saves a new comments in the database' do
+      expect { create_comment }.to change(Comment, :count).by(1)
     end
 
     it 'with invalid attribute' do
-      post :create, params: { comment: {body: ''}, question_id: question.id, user_id: user.id }, format: :js
-
-      expect(response).to have_http_status 403
+      expect { post :create, params: { comment: {body: ''}, question_id: question.id, user_id: user.id }, format: :js }.to_not change(Comment, :count)
     end
   end
 end

@@ -27,8 +27,6 @@
   .vote[id="question-#{question.id}"]
     = render question.rating, resource: question
 
-  = link_to 'add a comment', '#', remote: true, class: "add_a_comment",
-                                  title: 'create a comment', data: {id: question.id}
   = render 'comments/form', resource: question
 
 hr

@@ -24,11 +24,13 @@ document.addEventListener('turbolinks:load', () => {
   let answers = document.getElementsByClassName('answers_list')[0];
 
   let setAnswerRating = (e) => {
-    var answer_id    = e.detail[0].rateable_id,
-        rating_block = document.getElementById(`vote-answer-${answer_id}`),
-        rating = rating_block.getElementsByClassName('rating')[0];
+    if (e.detail[0].rateable_id) {
+      var answer_id    = e.detail[0].rateable_id,
+          rating_block = document.getElementById(`vote-answer-${answer_id}`),
+          rating       = rating_block.getElementsByClassName('rating')[0];
 
-    rating.innerHTML = e.detail[0].score;
+      rating.innerHTML = e.detail[0].score;
+    }
   };
 
   if (answers) answers.addEventListener('ajax:success', setAnswerRating);

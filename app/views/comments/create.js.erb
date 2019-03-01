@@ -1,0 +1,14 @@
+var commentsList = document.getElementById('comments_list-<%= @comment.commentable.id %>'),
+    form         = document.getElementsByClassName('js-comment-form-<%= @comment.commentable.id %>')[0],
+    textarea     = form.querySelector('textarea');
+
+<% if @comment.persisted? %>
+  var block = document.createElement('div');
+
+  block.innerHTML = '<%= j render @comment %>';
+  textarea.value = ''
+  form.classList.add('hidden');
+  commentsList.append(block);
+<% else %>
+  textarea.placeholder = "<%= @comment.errors.full_messages.join(' ').html_safe %>"
+<% end %>
