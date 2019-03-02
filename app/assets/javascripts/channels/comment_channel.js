@@ -14,22 +14,27 @@ document.addEventListener('turbolinks:load', () => {
 
         received(data) {
           if (gon.user_id != data.user_id) {
-
-            var block = document.createElement('div'),
-              answersList = document.getElementsByClassName('answers_list')[0];
-
-            block.innerHTML = data.body;
-            answersList.append(block);
+            pushComment(data.commentable_id, data.body)
           }
         }
       });
+  }
 
-    subscribeToComment = () => {
-      if (document.getElementsByClassName('answers_list')[0]) {
-        return App.comments_channel.perform('follow');
-      } else {
-        return App.comments_channel.perform('unfollow');
-      }
+  let pushComment = (id, data) => {
+    var commentsList = document.getElementById(`comments_list-${id}`),
+        block = document.createElement('div');
+        block.innerHTML = JST["templates/comment"]({body: data});
+
+      commentsList.append(block);
+  };
+
+
+  let subscribeToComment = () => {
+    if (document.getElementsByClassName('answers_list')[0]) {
+      return App.comments_channel.perform('follow');
+    } else {
+      return App.comments_channel.perform('unfollow');
     }
   }
+
 });
