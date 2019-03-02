@@ -19,5 +19,7 @@ li[class='answer' data-best_answer="#{answer.best}"]
       div[id="js_form-#{answer.id}"]
         = render 'answers/edit_form', answer: answer
 
+    = render 'comments/form', resource: answer
+
   .vote[id="vote-answer-#{answer.id}"]
     = render question.rating, resource: answer

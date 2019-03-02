@@ -1,6 +1,8 @@
 class AnswersController < ApplicationController
   include Rated
 
+  after_action :publish_answer, only: :create
+
   before_action :authenticate_user!
   before_action :question_author!, only: :set_best
   before_action :answer_author!, only: %i[update destroy]
@@ -28,6 +30,23 @@ class AnswersController < ApplicationController
   private
 
   helper_method :answer, :question
+
+  def publish_answer
+    return if answer.errors.any?
+
+    files = []
+    answer.files.each do |file|
+      files << { url: url_for(file), name: file.filename.to_s }
+    end
+
+    ActionCable.server.broadcast(
+        "publish_answer_for_#{answer.question_id}",
+        { answer: answer,
+          links: answer.links,
+          files: files,
+          author: answer.author.email }
+    )
+  end
 
   def question_author!
     head :forbidden unless current_user&.author_of?(answer.question)

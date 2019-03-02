@@ -1,0 +1,29 @@
+li[class='answer' data-best_answer="#{@answer.best}"]
+  .body
+    p = @answer.body
+    -if @answer_links.length != 0
+      .links
+        ul.links[id="links-#{@answer.id}"]
+          - for link in @answer_links
+            div class = "link_#{link.id}"
+              li
+                a href="#{link.url}" #{link.name}
+              - if link.gist?
+                p Gist content: #{link.gist_content}
+
+    -if @answer_files.length != 0
+      ol.attachments[id="answer_attached-#{@answer.id}"]
+        - for file in @answer_files
+          li
+            a[href="#{file.url}"] #{file.name}
+
+    p.author author: #{@author}
+
+  .vote[id="vote-answer-#{@answer.id}"]
+    a.fa.fa-caret-up.rating_up[data-remote="true"
+    rel="nofollow" data-method="patch"
+    href="/answer/#{@answer.id}/rating-up"]
+    span.rating 0
+    a.fa.fa-caret-down.rating_down[data-remote="true"
+    rel="nofollow" data-method="patch"
+    href="/answer/#{@answer.id}/rating-down"]

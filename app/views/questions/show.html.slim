@@ -1,4 +1,4 @@
-.question
+.question[data-id="#{question.id}"]
   .body
     h2 = question.title
 
@@ -27,6 +27,7 @@
   .vote[id="question-#{question.id}"]
     = render question.rating, resource: question
 
+  = render 'comments/form', resource: question
 
 hr
 h3 Answers

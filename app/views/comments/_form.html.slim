@@ -1,0 +1,12 @@
+.commentable
+
+  = link_to 'add a comment', '#', remote: true, class: "add-a-comment",
+          title: 'create a comment', data: {id: resource.id}
+
+  = form_with model: [resource, Comment.new], class: "js-comment-form-#{resource.id} hidden" do |f|
+    = f.label :body, 'Comment'
+    = f.text_area :body
+    = f.submit
+
+  .comments-list[id="comments_list-#{resource.id}"]
+    = render resource.comments

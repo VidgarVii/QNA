@@ -6,7 +6,7 @@ feature 'User can create question', "
   I'd like to be able to ask the question
 " do
 
-  describe 'Authenticated user' do
+  context 'Authenticated user' do
     given(:user) { create(:user) }
 
     background do
@@ -50,5 +50,35 @@ feature 'User can create question', "
     click_on 'Ask question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+  end
+
+  context "mulitple sessions" do
+    given(:user) { create(:user) }
+
+    scenario "question appears on another user's page", js: true do
+      using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      using_session('guest') do
+        visit questions_path
+      end
+
+      using_session('user') do
+        click_on 'Ask question'
+        fill_in 'Title', with: 'Some Title'
+        fill_in 'Body', with: 'Text'
+        click_on 'Ask'
+
+        expect(page).to have_content 'Your question successfully create.'
+        expect(page).to have_content 'Some Title'
+        expect(page).to have_content 'Text'
+      end
+
+      using_session('guest') do
+        expect(page).to have_content 'Some Title'
+      end
+    end
   end
 end
