@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  get 'omniauth_callbacks_controller/github'
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
   root to: "questions#index"
 
   concern :ratable do

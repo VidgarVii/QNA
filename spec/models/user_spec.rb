@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it { should have_many :questions }
+  it { should have_many(:autherizetions).dependent(:destroy) }
   it { should have_many :answers }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many :honors }
@@ -10,7 +11,7 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
-  context 'Check #author_of?',
+  context '.author_of?',
           'Ask question & answer' do
     let(:author) { create(:user) }
     let(:user)   { create(:user) }
@@ -27,32 +28,62 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context 'Right for vote' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
+  describe 'Right for vote' do
+    context 'has right' do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
 
-    it 'has_right_up_rate?' do
-      expect(user.has_right_up_rate?(question.rating)).to be_truthy
+      it 'has_right_up_rate?' do
+        expect(user.has_right_up_rate?(question.rating)).to be_truthy
+      end
+
+      it 'has_right_down_rate?' do
+        expect(user.has_right_down_rate?(question.rating)).to be_truthy
+      end
     end
 
-    it 'has_right_down_rate?' do
-      expect(user.has_right_down_rate?(question.rating)).to be_truthy
+    context 'no Right' do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
+      let!(:vote) { create(:vote, user: user, rating: question.rating, state: 1) }
+
+      it 'has_right_up_rate?' do
+        expect(user.has_right_up_rate?(question.rating)).to be_falsey
+      end
+
+      it 'has_right_down_rate?' do
+        vote.update(state: -1)
+
+        expect(user.has_right_down_rate?(question.rating)).to be_falsey
+      end
     end
   end
 
-  context 'No Right for vote' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question) }
-    let!(:vote) { create(:vote, user: user, rating: question.rating, state: 1) }
 
-    it 'has_right_up_rate?' do
-      expect(user.has_right_up_rate?(question.rating)).to be_falsey
+  describe '.find_for_ouath' do
+    let!(:user) { create(:user) }
+    let(:oath) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
+
+    context 'user already has autherization' do
+      it 'returns the user' do
+        user.autherizetions.create(provider: 'facebook', uid: '123456')
+
+        expect(User.find_for_oauth(oath)).to eq user
+      end
     end
 
-    it 'has_right_down_rate?' do
-      vote.update(state: -1)
+    context 'user has not autherization' do
+      context 'user already exists' do
+        let(:oath) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: user.email }) }
 
-      expect(user.has_right_down_rate?(question.rating)).to be_falsey
+        it 'does not create new user' do
+          expect { User.find_for_oauth(oath) }.to_not change(User, :count)
+        end
+
+        it 'create autherization for user' do
+          expect { User.find_for_oauth(oath) }.to change(user.autherizetions, :count).by(1)
+        end
+      end
     end
   end
 end
