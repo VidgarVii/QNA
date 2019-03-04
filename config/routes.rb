@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   root to: "questions#index"
 
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks'}
 
+  get 'omniauth_callbacks_controller/confirm_email'
   get 'omniauth_callbacks_controller/github'
   get 'omniauth_callbacks_controller/vkontakte'
   get 'omniauth_callbacks_controller/instagram'

@@ -10,14 +10,14 @@ class Services::FindForOauth
     return autherization.user if autherization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
+    user = User.find_by(email: email)
 
     if user
       user.create_authorization(auth)
     else
       password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      user.create_authorization(auth)
+      user = User.create(email: email, password: password, password_confirmation: password)
+      user.create_authorization(auth) if user.valid?
     end
 
     user
