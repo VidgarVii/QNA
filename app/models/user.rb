@@ -10,11 +10,10 @@ class User < ApplicationRecord
   has_many :answers
   has_many :honors
   has_many :votes,             dependent: :destroy
-  has_many :autherizetions,    dependent: :destroy
+  has_many :authorizations,    dependent: :destroy
 
   def self.find_for_oauth(auth)
-    autherization = Autherizetion.where(provider: auth.provider, uid: auth.uid.to_s).first
-    autherization.user if autherization
+    Services::FindForOauth.new(auth).call
   end
 
   def author_of?(resource)
@@ -27,6 +26,10 @@ class User < ApplicationRecord
 
   def has_right_down_rate?(rating)
     !set_state(rating).negative?
+  end
+
+  def create_authorization(auth)
+    authorizations.create(provider: auth.provider, uid: auth.uid)
   end
 
   private

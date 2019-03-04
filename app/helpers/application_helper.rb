@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def gist(url)
-    service = GistService.new(url)
+    service = Services::Gist.new(url)
 
     if service.gist_found?
       simple_format(service.content)

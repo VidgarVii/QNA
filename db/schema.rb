@@ -47,13 +47,14 @@ ActiveRecord::Schema.define(version: 2019_03_03_095431) do
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
-  create_table "autherizetions", force: :cascade do |t|
+  create_table "authorizations", force: :cascade do |t|
     t.bigint "user_id"
     t.string "provider"
     t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_autherizetions_on_user_id"
+    t.index ["provider", "uid"], name: "index_authorizations_on_provider_and_uid"
+    t.index ["user_id"], name: "index_authorizations_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -130,7 +131,7 @@ ActiveRecord::Schema.define(version: 2019_03_03_095431) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "autherizetions", "users"
+  add_foreign_key "authorizations", "users"
   add_foreign_key "votes", "ratings"
   add_foreign_key "votes", "users"
 end

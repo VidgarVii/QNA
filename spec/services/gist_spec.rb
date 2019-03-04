@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe 'Get gist content' do
+RSpec.describe Services::Gist do
   let(:url) { 'https://gist.github.com/VidgarVii/5d57bfba7d270fe169a8189fa5c28575' }
   let(:invalid_url) { 'https://gist.github.com/VidgarVii/2ef468a3d39a0e6717e76dd9918b67e5' }
 
   describe 'Get response' do
-    let(:valid_service) { GistService.new(url) }
-    let(:invalid_service) { GistService.new(invalid_url) }
+    let(:valid_service) { Services::Gist.new(url) }
+    let(:invalid_service) { Services::Gist.new(invalid_url) }
 
     it 'get response string' do
       expect(valid_service.content.class).to eq String

@@ -69,12 +69,14 @@ group :development do
   gem 'guard'
   gem 'guard-bundler', require: false
   gem 'guard-rspec'
+  gem 'letter_opener'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
+  gem 'capybara-email'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '4.0.0.rc1'

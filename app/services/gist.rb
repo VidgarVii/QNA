@@ -1,4 +1,4 @@
-class GistService
+class Services::Gist
   attr_reader :status
 
   def initialize(url)
