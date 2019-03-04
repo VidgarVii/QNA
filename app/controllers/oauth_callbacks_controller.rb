@@ -5,6 +5,8 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def vkontakte; end
 
+  def instagram; end
+
   private
 
   def omniauth

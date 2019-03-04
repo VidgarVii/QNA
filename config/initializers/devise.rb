@@ -275,6 +275,9 @@ Devise.setup do |config|
                   Rails.application.credentials[Rails.env.to_sym][:vkontakte][:app_secret],
                   scope: 'email'
 
+  config.omniauth :instagram,
+                  Rails.application.credentials[Rails.env.to_sym][:instagram][:app_id],
+                  Rails.application.credentials[Rails.env.to_sym][:instagram][:app_secret]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

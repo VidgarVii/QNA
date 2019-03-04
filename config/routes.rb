@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'omniauth_callbacks_controller/github'
   get 'omniauth_callbacks_controller/vkontakte'
+  get 'omniauth_callbacks_controller/instagram'
 
   concern :ratable do
     patch 'rating-up', on: :member

@@ -35,7 +35,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
-  config.include OmniauthMacros
 
   Capybara.javascript_driver = :selenium_chrome_headless
   Capybara.default_max_wait_time = 5
@@ -85,3 +84,19 @@ Shoulda::Matchers.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
+
+OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new({
+                                                                   'provider' => 'vkontakte',
+                                                                   'uid' => '123545',
+                                                                   'info' => {
+                                                                       'email' => 'mail@mail.ru'
+                                                                   }
+                                                               })
+
+OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
+                                                                'provider' => 'vkontakte',
+                                                                'uid' => '123545',
+                                                                'info' => {
+                                                                    'email' => 'mail@mail.ru'
+                                                                }
+                                                            })
