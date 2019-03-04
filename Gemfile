@@ -31,6 +31,7 @@ gem 'skim'
 
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-vkontakte'
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'

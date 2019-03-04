@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  get 'omniauth_callbacks_controller/github'
+  root to: "questions#index"
+
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
-  root to: "questions#index"
+  get 'omniauth_callbacks_controller/github'
+  get 'omniauth_callbacks_controller/vkontakte'
 
   concern :ratable do
     patch 'rating-up', on: :member

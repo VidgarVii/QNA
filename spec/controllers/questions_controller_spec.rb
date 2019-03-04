@@ -195,5 +195,5 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  include_examples "ratings_controller", :question
+  it_behaves_like "ratings_controller", :question
 end
