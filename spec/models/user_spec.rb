@@ -8,10 +8,11 @@ RSpec.describe User, type: :model do
   it { should have_many :honors }
   it { should have_many(:votes).dependent(:destroy) }
 
-  it { should validate_presence_of :email }
+  it { should_not allow_value('asd@change.me').for(:email).on(:update) }
+  it { should validate_presence_of :password }
   it { should validate_presence_of :password }
 
-  context '#author_of?',
+  describe '#author_of?',
           'Ask question & answer' do
     let(:author) { create(:user) }
     let(:user)   { create(:user) }
@@ -68,6 +69,19 @@ RSpec.describe User, type: :model do
       expect(Services::FindForOauth).to receive(:new).with(auth).and_return(service)
       expect(service).to receive(:call)
       User.find_for_oauth(auth)
+    end
+  end
+
+  describe '#email_verified?' do
+    let(:user_invalid) { create(:user, email: 'qwer@change.me') }
+    let(:user_valid) { create(:user, email: 'qwer@mail.me') }
+
+    it 'false' do
+      expect(user_invalid.email_verified?).to be_falsey
+    end
+
+    it 'true' do
+      expect(user_valid.email_verified?).to be_truthy
     end
   end
 end

@@ -1,0 +1,10 @@
+h2 To complete the registration, confirm your email
+
+= render 'shared/errors', resource: user
+
+= form_with model: user, url: finish_sign_up_path(user), method: :patch, local: true do |f|
+  .field
+    = f.label :email
+    = f.text_field :email, value: ''
+  .field
+    = f.submit

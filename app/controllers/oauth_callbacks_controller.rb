@@ -7,10 +7,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def instagram; end
 
-  def confirm_email
-
-  end
-
   private
 
   def omniauth
@@ -20,7 +16,15 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, email: :authentication
       set_flash_message(:notice, :success, kind: action_name.capitalize) if is_navigational_format?
     else
-      redirect_to root_path, alert: @user.errors.has_key?('email')
+      redirect_to root_path, alert: 'Some error. Please retry registration'
+    end
+  end
+
+  def after_sign_in_path_for(resource)
+    if resource.email_verified?
+      super resource
+    else
+      finish_sign_up_path(resource)
     end
   end
 end

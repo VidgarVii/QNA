@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
+  REGEXP_EMAIL = /change.me/
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: %i[github vkontakte instagram]
@@ -11,6 +14,8 @@ class User < ApplicationRecord
   has_many :honors
   has_many :votes,             dependent: :destroy
   has_many :authorizations,    dependent: :destroy
+
+  validates :email, format: { without: REGEXP_EMAIL }, on: :update
 
   def self.find_for_oauth(auth)
     Services::FindForOauth.new(auth).call
@@ -30,6 +35,10 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def email_verified?
+    !email.match(REGEXP_EMAIL)
   end
 
   private

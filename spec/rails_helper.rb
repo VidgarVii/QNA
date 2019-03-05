@@ -1,5 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'capybara/email/rspec'
+
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
@@ -70,6 +72,10 @@ RSpec.configure do |config|
   config.after(:all) do
     FileUtils.rm_rf("#{Rails.root}/tmp/storage")
   end
+
+  ActionDispatch::IntegrationTest
+  Capybara.server_port = 3001
+  Capybara.app_host = 'http://localhost:3001'
 end
 
 FactoryBot::SyntaxRunner.class_eval do
@@ -100,3 +106,4 @@ OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
                                                                     'email' => 'mail@mail.ru'
                                                                 }
                                                             })
+
