@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_answer
 
+  authorize_resource
 
   def create
     @comment = commented.comments.new(comment_params)

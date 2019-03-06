@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  authorize_resource
+
   def finish_sign_up
     redirect_to root_path if user.email_verified?
 

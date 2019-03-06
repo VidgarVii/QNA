@@ -5,6 +5,8 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
 
+  authorize_resource
+
   def index
     @questions = Question.all
   end
@@ -43,7 +45,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    question.destroy if current_user.author_of?(question)
+    question.destroy
 
     redirect_to questions_path
   end

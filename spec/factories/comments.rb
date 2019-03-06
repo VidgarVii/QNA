@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
     body { "Comment" }
-    commentable { nil }
+    association :commentable, factory: :answer
   end
 end

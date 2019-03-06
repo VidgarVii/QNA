@@ -1,6 +1,7 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :author!
+
+  authorize_resource class: 'ActiveStorage::Attachment'
 
   def destroy
     attachment.purge
@@ -9,10 +10,6 @@ class AttachmentsController < ApplicationController
   private
 
   helper_method :attachment
-
-  def author!
-    head :forbidden unless current_user&.author_of?(attachment.record)
-  end
 
   def attachment
     @atatchment ||= ActiveStorage::Attachment.find(params[:id])

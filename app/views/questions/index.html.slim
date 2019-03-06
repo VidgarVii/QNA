@@ -1,5 +1,5 @@
 h1 Questions
-= link_to 'Ask question', new_question_path, class: 'btn btn-success'
+= link_to 'Ask question', new_question_path, class: 'btn btn-success' if can?(:create, Question)
 
 ul.questions_list
   = render @questions
