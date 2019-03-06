@@ -90,20 +90,3 @@ Shoulda::Matchers.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
-
-OmniAuth.config.mock_auth[:vkontakte] = OmniAuth::AuthHash.new({
-                                                                   'provider' => 'vkontakte',
-                                                                   'uid' => '123545',
-                                                                   'info' => {
-                                                                       'email' => 'mail@mail.ru'
-                                                                   }
-                                                               })
-
-OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
-                                                                'provider' => 'vkontakte',
-                                                                'uid' => '123545',
-                                                                'info' => {
-                                                                    'email' => 'mail@mail.ru'
-                                                                }
-                                                            })
-
