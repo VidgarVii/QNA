@@ -4,8 +4,8 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: :create
 
   before_action :authenticate_user!
-  before_action :question_author!, only: :set_best
-  before_action :answer_author!, only: %i[update destroy]
+  # before_action :question_author!, only: :set_best
+  # before_action :answer_author!, only: %i[update destroy]
 
   authorize_resource
 
@@ -50,13 +50,13 @@ class AnswersController < ApplicationController
     )
   end
 
-  def question_author!
-    head :forbidden unless current_user&.author_of?(answer.question)
-  end
-
-  def answer_author!
-    head :forbidden unless current_user&.author_of?(answer)
-  end
+  # def question_author!
+  #   head :forbidden unless current_user&.author_of?(answer.question)
+  # end
+  #
+  # def answer_author!
+  #   head :forbidden unless current_user&.author_of?(answer)
+  # end
 
   def question
     @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question

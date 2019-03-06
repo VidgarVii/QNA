@@ -29,6 +29,8 @@ describe Ability do
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
 
+    it { should be_able_to :set_best, Answer }
+
     it { should be_able_to :update, create(:question, author: user), user_id: user.id }
     it { should_not be_able_to :update, create(:question, author: outher), user_id: outher.id }
 

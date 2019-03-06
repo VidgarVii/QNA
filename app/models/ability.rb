@@ -25,8 +25,16 @@ class Ability
     quest_abilities
     can :create,  [Question, Answer, Comment]
     can :update,  [Question, Answer], user_id: user.id
+
+    can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
+
+    #TODO Dont Work
+
     can :destroy, [Question, Answer], user_id: user.id
-    can :destroy, ActiveStorage::Attachment, user_id: user.id
+
+    can :destroy, ActiveStorage::Attachment do |file|
+      user.author_of?(file.record)
+    end
 
     cannot :rating_down, [Question, Answer], user_id: user.id
     cannot :rating_up, [Question, Answer], user_id: user.id
@@ -34,5 +42,6 @@ class Ability
     can :rating_up, [Question, Answer]
 
     can :finish_sign_up, User
+    can :set_best,  Answer, user_id: user.id
   end
 end

@@ -5,6 +5,8 @@ RSpec.describe UsersController, type: :controller do
     context 'user registration' do
       let(:user) { create(:user, email: 'aghjghjsd@change.me') }
 
+      before { login(user) }
+
       it 'render template' do
         get :finish_sign_up, params: { id: user }
 
@@ -18,6 +20,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'confirm new email' do
+        login(user)
         patch :finish_sign_up, params: { id: user, user: { email: 'newemail@gmail.com' } }
         sleep 1
         user.reload
@@ -30,7 +33,6 @@ RSpec.describe UsersController, type: :controller do
     context 'user exists' do
       let(:user) { create(:user) }
       it 'redirect to root' do
-        login(user)
         get :finish_sign_up, params: { id: user }
 
         expect(response).to redirect_to root_path
