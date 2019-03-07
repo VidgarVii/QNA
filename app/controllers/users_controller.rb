@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  authorize_resource
-
   def finish_sign_up
+    authorize! :finish_sign_up, user
+
     redirect_to root_path if user.email_verified?
 
     if request.patch? && params[:user]

@@ -2,6 +2,8 @@ module Rated
   extend ActiveSupport::Concern
 
   def rating_up
+    authorize! :rating_up, object
+
     if object.rate_up(current_user)
       render json: object.rating
     else
@@ -10,6 +12,8 @@ module Rated
   end
 
   def rating_down
+    authorize! :rating_down, object
+
     respond_to do |format|
       if object.rate_down(current_user)
         format.json { render json: object.rating }

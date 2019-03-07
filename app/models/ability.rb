@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
@@ -23,21 +25,15 @@ class Ability
 
   def user_abilities
     quest_abilities
-    can :create,  [Question, Answer, Comment]
-    can :update,  [Question, Answer], user_id: user.id
 
-    cannot :rating_down, [Question, Answer], user_id: user.id
-    cannot :rating_up, [Question, Answer], user_id: user.id
-    can :rating_down, [Question, Answer]
-    can :rating_up, [Question, Answer]
+    can :create,   [Question, Answer, Comment]
+    can :set_best,       Answer,                    question: { user_id: user.id }
+    can :destroy,        ActiveStorage::Attachment, record: { user_id: user.id }
+    can :finish_sign_up, User,                      id: user.id
 
-    can :finish_sign_up, User
-    can :set_best,  Answer, question: { user_id: user.id }
+    can %i[rating_down rating_up],[Question, Answer]
+    can %i[update destroy],       [Question, Answer], user_id: user.id
 
-    can :destroy, [Question, Answer], user_id: user.id
-
-    can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
-
-
+    cannot %i[rating_down rating_up],      [Question, Answer], user_id: user.id
   end
 end

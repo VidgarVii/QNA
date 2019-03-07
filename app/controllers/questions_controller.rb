@@ -5,13 +5,15 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: :create
 
-  # authorize_resource
-
   def index
+    authorize! :index, Question
+
     @questions = Question.all
   end
 
   def show
+    authorize! :show, question
+
     @answers = question.answers.includes(:links).with_attached_files.order(best: :desc)
     @answer  = Answer.new
     @link    = @answer.links.build
@@ -21,11 +23,15 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    authorize! :create, Question
+
     question.links.build
     @honor = question.build_honor
   end
 
   def create
+    authorize! :create, Question
+
     @question        = Question.new(question_params)
     @question.author = current_user
 
@@ -37,11 +43,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user&.author_of?(question)
-      question.update(question_params)
-    else
-      head :forbidden
-    end
+    authorize! :update, question
+
+    question.update(question_params)
   end
 
   def destroy

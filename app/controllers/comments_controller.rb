@@ -2,9 +2,9 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_answer
 
-  authorize_resource
-
   def create
+    authorize! :create, Comment
+
     @comment = commented.comments.new(comment_params)
     @comment.author = current_user
     @comment.save

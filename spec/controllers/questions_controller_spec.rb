@@ -190,7 +190,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirect to questions_path' do
         question_destroy
 
-        expect(response).to redirect_to  questions_path
+        expect(response).to redirect_to root_path
       end
     end
   end
