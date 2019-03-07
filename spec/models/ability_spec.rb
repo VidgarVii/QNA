@@ -31,16 +31,24 @@ describe Ability do
 
     it { should be_able_to :set_best, Answer }
 
-    it { should be_able_to :update, create(:question, author: user), user_id: user.id }
-    it { should_not be_able_to :update, create(:question, author: outher), user_id: outher.id }
+    it { should be_able_to :update, create(:question, author: user) }
+    it { should_not be_able_to :update, create(:question, author: outher) }
 
-    it { should be_able_to :update, create(:answer, author: user), user_id: user.id }
-    it { should_not be_able_to :update, create(:answer, author: outher), user_id: outher.id }
+    it { should be_able_to :update, create(:answer, author: user) }
+    it { should_not be_able_to :update, create(:answer, author: outher) }
 
-    it { should be_able_to :destroy, create(:question, author: user), user_id: user.id }
-    it { should_not be_able_to :destroy, create(:question, author: outher), user_id: outher.id }
+    it { should be_able_to :destroy, create(:question, author: user) }
+    it { should_not be_able_to :destroy, create(:question, author: outher) }
 
-    it { should be_able_to :destroy, create(:answer, author: user), user_id: user.id }
-    it { should_not be_able_to :destroy, create(:answer, author: outher), user_id: outher.id }
+    it { should be_able_to :destroy, create(:answer, author: user) }
+    it { should_not be_able_to :destroy, create(:answer, author: outher) }
+
+    it { should be_able_to :finish_sign_up, User }
+
+    it { should be_able_to :rating_down,  create(:question) }
+    it { should_not be_able_to :rating_down, create(:question, author: user) }
+
+    it { should be_able_to :rating_down, create(:answer) }
+    it { should_not be_able_to :rating_down, create(:answer, author: user) }
   end
 end
