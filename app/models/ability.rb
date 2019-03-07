@@ -35,18 +35,8 @@ class Ability
     can :set_best,  Answer, question: { user_id: user.id }
 
     can :destroy, [Question, Answer], user_id: user.id
-    cannot :destroy, [Question, Answer]
-
-    #TODO Dont Work
-
-    cannot :destroy, ActiveStorage::Attachment
-
-    can :destroy, ActiveStorage::Attachment do |file|
-      user.author_of?(file.record)
-    end
 
     can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
-
 
 
   end

@@ -5,5 +5,5 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: root_path)
   end
 
-  check_authorization unless: :devise_controller? || :attachments_controller?
+  check_authorization unless: :devise_controller?
 end

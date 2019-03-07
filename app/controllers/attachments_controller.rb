@@ -4,8 +4,9 @@ class AttachmentsController < ApplicationController
   # authorize_resource class: 'ActiveStorage::Attachment'
 
   def destroy
-    attachment.purge
     authorize! :destroy, attachment
+
+    attachment.purge
   end
 
   private

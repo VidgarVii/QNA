@@ -1,11 +1,11 @@
 class QuestionsController < ApplicationController
   include Rated
 
-  after_action :publish_question, only: :create
-
   before_action :authenticate_user!, except: %i[index show]
 
-  authorize_resource
+  after_action :publish_question, only: :create
+
+  # authorize_resource
 
   def index
     @questions = Question.all
@@ -45,6 +45,8 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, question
+
     question.destroy
 
     redirect_to questions_path
