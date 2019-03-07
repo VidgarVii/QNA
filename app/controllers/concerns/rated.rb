@@ -10,14 +10,12 @@ module Rated
   end
 
   def rating_down
-    respond_to do |format|
-      if object.rate_down(current_user)
-        format.json { render json: object.rating }
-      else
-        format.json do
-          render json: {access: 'No access'},
-                 status: :forbidden
-        end
+    if object.rate_down(current_user)
+      format.json { render json: object.rating }
+    else
+      format.json do
+        render json: {access: 'No access'},
+               status: :forbidden
       end
     end
   end

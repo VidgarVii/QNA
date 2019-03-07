@@ -19,11 +19,15 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    authorize Question
+
     question.links.build
     @honor = question.build_honor
   end
 
   def create
+    authorize Question
+
     @question        = Question.new(question_params)
     @question.author = current_user
 
@@ -35,15 +39,15 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user&.author_of?(question)
-      question.update(question_params)
-    else
-      head :forbidden
-    end
+    authorize question
+
+    question.update(question_params)
   end
 
   def destroy
-    question.destroy if current_user.author_of?(question)
+    authorize question
+
+    question.destroy
 
     redirect_to questions_path
   end

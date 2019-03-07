@@ -4,10 +4,10 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: :create
 
   before_action :authenticate_user!
-  before_action :question_author!, only: :set_best
-  # before_action :answer_author!, only: %i[update destroy]
 
   def create
+    authorize Answer
+
     @answer        = question.answers.new(answer_params)
     @answer.author = current_user
     @answer.save
@@ -15,14 +15,19 @@ class AnswersController < ApplicationController
 
   def update
     authorize answer
+
     answer.update(answer_params)
   end
 
   def destroy
+    authorize answer
+
     answer.destroy
   end
 
   def set_best
+    authorize answer
+
     answer.make_the_best
 
     @answers = answer.question.answers.order(best: :desc)
@@ -47,14 +52,6 @@ class AnswersController < ApplicationController
           files: files,
           author: answer.author.email }
     )
-  end
-
-  def question_author!
-    head :forbidden unless current_user&.author_of?(answer.question)
-  end
-
-  def answer_author!
-    head :forbidden unless current_user&.author_of?(answer)
   end
 
   def question

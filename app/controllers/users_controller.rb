@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def finish_sign_up
-    redirect_to root_path if user.email_verified?
+    # redirect_to root_path if user.email_verified?
+    authorize user
 
     if request.patch? && params[:user]
       if user.update(user_params)

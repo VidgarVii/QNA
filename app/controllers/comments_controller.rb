@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
 
 
   def create
+    authorize Comment
+
     @comment = commented.comments.new(comment_params)
     @comment.author = current_user
     @comment.save

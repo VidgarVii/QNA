@@ -1,8 +1,12 @@
-class AnswerPolicy < ApplicationPolicy
+class QuestionPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+  def new?
+    user.admin? || user
   end
 
   def create?
@@ -15,9 +19,5 @@ class AnswerPolicy < ApplicationPolicy
 
   def destroy?
     user.admin? || user.author_of?(record)
-  end
-
-  def set_best?
-    user.admin? || user.author_of?(record.question)
   end
 end
