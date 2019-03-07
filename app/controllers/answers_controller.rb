@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :question_author!, only: :set_best
-  before_action :answer_author!, only: %i[update destroy]
+  # before_action :answer_author!, only: %i[update destroy]
 
   def create
     @answer        = question.answers.new(answer_params)
@@ -14,6 +14,7 @@ class AnswersController < ApplicationController
   end
 
   def update
+    authorize answer
     answer.update(answer_params)
   end
 

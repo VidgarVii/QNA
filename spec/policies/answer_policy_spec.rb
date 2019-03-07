@@ -1,27 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe AnswerPolicy, type: :policy do
-  let(:user) { User.new }
+  let(:user) { create(:user) }
 
-  subject { described_class }
-
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  subject { AnswerPolicy }
 
   permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+    it 'grants access if user is admin' do
+      expect(subject).to permit(User.new(admin: true), create(:answer))
+    end
 
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it 'grant access if user is author' do
+      expect(subject).to permit(user, create(:answer, author: user))
+    end
+
+    it 'denies access if user is not author' do
+      expect(subject).to_not permit(user, create(:answer))
+    end
   end
 end
