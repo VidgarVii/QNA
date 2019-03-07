@@ -13,7 +13,7 @@ li[class='answer' data-best_answer="#{answer.best}"]
     p.author author: #{answer.author.email}
     = delete_btn(answer)
 
-    - if current_user&.author_of?(answer)
+    - if can?(:update, answer)
       = link_to 'Edit', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
 
       div[id="js_form-#{answer.id}"]

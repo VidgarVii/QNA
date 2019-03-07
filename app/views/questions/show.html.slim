@@ -20,7 +20,7 @@
         = render partial: 'shared/attachment', collection: question.files
 
     = delete_btn(question)
-    - if current_user&.author_of?(question)
+    - if can?(:update, question)
       = link_to 'Edit question', '#', class: 'edit_question_link btn btn-info'
       div[id="js_quest_form-#{question.id}"]
         = render 'edit_form', question: question
