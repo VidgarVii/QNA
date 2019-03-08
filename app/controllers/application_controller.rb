@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
     flash[:alert] = exception.message
 
     respond_to do |format|
-      format.json { head :forbidden, content_type: 'text/html' }
+      format.json { head :forbidden, content_type: 'application/json' }
       format.html { redirect_to main_app.root_url, notice: exception.message }
-      format.js   { head :forbidden, content_type: 'text/html' }
+      format.js   { head :forbidden, content_type: 'text/javascript' }
     end
   end
 
