@@ -27,6 +27,7 @@ gem "octokit", "~> 4.0"
 gem 'active_storage_validations'
 gem 'gon'
 gem 'skim'
+gem 'oj'
 
 gem 'devise'
 gem 'omniauth'
@@ -34,6 +35,9 @@ gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'omniauth-instagram'
 gem 'cancancan', '~> 2.0'
+
+gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'

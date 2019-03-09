@@ -13,4 +13,6 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :honor, reject_if: :all_blank
 
   validates :title, :body, presence: true
+
+  scope :sort_by_update, -> { order(:updated_at) }
 end
