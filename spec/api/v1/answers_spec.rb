@@ -67,4 +67,45 @@ describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/answers/' do
+    let!(:question) { create(:question) }
+    let(:api_path)       { api_v1_question_answers_path(question) }
+    let(:headers)        {{"ACCEPT" => 'application/json'}}
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'create question with valid attributes' do
+      before { post api_path, params: { access_token: access_token.token,
+                                        answer: { body: 'Body', question: question, author: question.author } },
+                    headers: headers  }
+
+      it_behaves_like 'API response status 200'
+
+      it 'return question public field with valid attribute' do
+        %w[id body created_at updated_at files links comments].each do |attr|
+          expect(json['answer'].has_key?(attr)).to be_truthy
+        end
+      end
+
+      it 'add question to db' do
+        expect(Answer.count).to eq 1
+      end
+    end
+
+    context 'create question with valid attributes' do
+      before { post api_path, params: { access_token: access_token.token,
+                                        answer: attributes_for(:answer, :invalid_answer) },
+                    headers: headers  }
+      it 'return status' do
+        expect(response).to be_unprocessable
+      end
+
+      it 'return error from body' do
+        expect(json.has_key?('body')).to be_truthy
+      end
+    end
+  end
 end
