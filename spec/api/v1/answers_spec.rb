@@ -108,4 +108,32 @@ describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/answers/' do
+    let!(:answer) { create(:answer) }
+    let(:api_path)       { api_v1_answer_path(answer) }
+    let(:headers)        { { "ACCEPT" => 'application/json' } }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :put }
+    end
+
+    context 'create question with valid attributes' do
+      before { put api_path, params: { access_token: access_token.token,
+                                       answer: { body: 'New answer body' } },
+                   headers: headers  }
+
+      it_behaves_like 'API response status 200'
+
+      it 'return question public field with valid attribute' do
+        %w[id body created_at updated_at files links comments].each do |attr|
+          expect(json['answer'].has_key?(attr)).to be_truthy
+        end
+      end
+
+      it 'edit question title' do
+        expect(json['answer']['body']).to eq 'New answer body'
+      end
+    end
+  end
 end
