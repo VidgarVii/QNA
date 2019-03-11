@@ -110,7 +110,7 @@ describe 'Profile API', type: :request do
   end
 
   describe 'PUT /api/v1/answers/' do
-    let!(:answer) { create(:answer) }
+    let!(:answer)   { create(:answer) }
     let(:api_path)       { api_v1_answer_path(answer) }
     let(:headers)        { { "ACCEPT" => 'application/json' } }
 
@@ -134,6 +134,23 @@ describe 'Profile API', type: :request do
       it 'edit question title' do
         expect(json['answer']['body']).to eq 'New answer body'
       end
+    end
+  end
+
+
+  describe 'DELETE /api/v1/answers/:id/' do
+    let!(:answer) { create(:answer) }
+    let(:api_path)       { api_v1_answer_path(answer) }
+    let(:headers)        { { "ACCEPT" => 'application/json' } }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+    end
+
+    before { delete api_path, params: { access_token: access_token.token }, headers: headers  }
+
+    it 'destroy question' do
+      expect(Answer.count).to eq 0
     end
   end
 end

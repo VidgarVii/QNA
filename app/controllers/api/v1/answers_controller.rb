@@ -28,6 +28,10 @@ class Api::V1::AnswersController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    answer.destroy
+  end
+
   private
 
   def answers

@@ -28,6 +28,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     end
   end
 
+  def destroy
+    question.destroy
+  end
+
   private
 
   def questions
