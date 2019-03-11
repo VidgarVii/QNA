@@ -95,7 +95,7 @@ describe 'Questions API', type: :request do
 
   describe 'POST /api/v1/questions/' do
     let(:api_path) { '/api/v1/questions/' }
-    let(:headers)  {{"ACCEPT" => 'application/json'}}
+    let(:headers)  { { "ACCEPT" => 'application/json' } }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :post }
@@ -129,6 +129,34 @@ describe 'Questions API', type: :request do
 
       it 'return error from title' do
         expect(json.has_key?('title')).to be_truthy
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/questions/' do
+    let!(:question) { create(:question) }
+    let(:api_path)       { api_v1_question_path(question) }
+    let(:headers)        { { "ACCEPT" => 'application/json' } }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :put }
+    end
+
+    context 'create question with valid attributes' do
+      before { put api_path, params: { access_token: access_token.token,
+                                       question: { body: 'New question body' } },
+                    headers: headers  }
+
+      it_behaves_like 'API response status 200'
+
+      it 'return question public field with valid attribute' do
+        %w[id title body created_at updated_at files links comments].each do |attr|
+          expect(json['question'].has_key?(attr)).to be_truthy
+        end
+      end
+
+      it 'edit question title' do
+        expect(json['question']['body']).to eq 'New question body'
       end
     end
   end
