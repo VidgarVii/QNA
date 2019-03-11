@@ -18,9 +18,7 @@ describe 'Profile API', type: :request do
       let(:answer_response) { json['answers'].first }
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'return 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API response status 200'
 
       it 'return list answers' do
         expect(json['answers'].size).to eq 5
@@ -45,9 +43,7 @@ describe 'Profile API', type: :request do
 
     before { get api_path, params: { access_token: access_token.token }, headers: headers}
 
-    it 'return 200 status' do
-      expect(response).to be_successful
-    end
+    it_behaves_like 'API response status 200'
 
     it 'return all public fields' do
       %w[id body question_id created_at updated_at].each do |attr|

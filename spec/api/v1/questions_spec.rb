@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { 'CONTENT_TYPE' => 'application/json',
+  let(:headers)      { { 'CONTENT_TYPE' => 'application/json',
                     'ACCEPT' => 'application/json'} }
-  let(:access_token)      { create(:access_token) }
+  let(:access_token) { create(:access_token) }
 
   describe 'GET api/v1/questions/' do
     let(:api_path) { '/api/v1/questions/' }
@@ -20,9 +20,7 @@ describe 'Questions API', type: :request do
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it 'return 200 status' do
-        expect(response).to be_successful
-      end
+      it_behaves_like 'API response status 200'
 
       it 'return list of questions' do
         expect(json['questions'].size).to eq 2
@@ -59,7 +57,7 @@ describe 'Questions API', type: :request do
     end
   end
 
-  describe 'GET api/v1/questions/:id/' do
+  describe 'GET /api/v1/questions/:id/' do
     let(:question)          { create(:question, :with_files, :with_link, :with_comment) }
     let(:api_path)          { "/api/v1/questions/#{question.id}/" }
     let(:question_response) { json['question'] }
@@ -70,9 +68,7 @@ describe 'Questions API', type: :request do
 
     before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-    it 'return 200 status' do
-      expect(response).to be_successful
-    end
+    it_behaves_like 'API response status 200'
 
     it 'return all public fields' do
       %w[id title body created_at updated_at].each do |attr|
@@ -93,6 +89,46 @@ describe 'Questions API', type: :request do
     it 'return all public fields for comments' do
       %w[id body created_at updated_at commentable_type commentable_id].each do |attr|
         expect(comment_response[attr]).to eq comment.send(attr).as_json
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions/' do
+    let(:api_path) { '/api/v1/questions/' }
+    let(:headers)  {{"ACCEPT" => 'application/json'}}
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'create question with valid attributes' do
+      before { post api_path, params: { access_token: access_token.token,
+                                        question: attributes_for(:question) },
+                    headers: headers  }
+
+      it_behaves_like 'API response status 200'
+
+      it 'return question public field with valid attribute' do
+        %w[id title body created_at updated_at files links comments].each do |attr|
+          expect(json['question'].has_key?(attr)).to be_truthy
+        end
+      end
+
+      it 'add question to db' do
+        expect(Question.count).to eq 1
+      end
+    end
+
+    context 'create question with valid attributes' do
+      before { post api_path, params: { access_token: access_token.token,
+                                        question: attributes_for(:question, :invalid_question) },
+                    headers: headers  }
+      it 'return status' do
+        expect(response).to be_unprocessable
+      end
+
+      it 'return error from title' do
+        expect(json.has_key?('title')).to be_truthy
       end
     end
   end
