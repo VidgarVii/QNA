@@ -39,6 +39,10 @@ FactoryBot.define do
     after(:create) { |question| create(:link, linkable: question) }
   end
 
+  trait :with_comment do
+    after(:create) { |question| create(:comment, commentable: question, author: question.author) }
+  end
+
   trait :with_quest_gist do
     after(:create) { |question| create(:link, :gist, linkable: question) }
   end

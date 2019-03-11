@@ -31,6 +31,10 @@ FactoryBot.define do
     files { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb") }
   end
 
+  trait :with_answer_comment do
+    after(:create) { |answer| create(:comment, commentable: answer, author: answer.author) }
+  end
+
   trait :invalid_answer do
     body { nil }
   end
