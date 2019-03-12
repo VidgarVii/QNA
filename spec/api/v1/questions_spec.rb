@@ -119,7 +119,7 @@ describe 'Questions API', type: :request do
       end
     end
 
-    context 'create question with valid attributes' do
+    context 'create question with invalid attributes' do
       before { post api_path, params: { access_token: access_token.token,
                                         question: attributes_for(:question, :invalid_question) },
                     headers: headers  }
@@ -134,29 +134,58 @@ describe 'Questions API', type: :request do
   end
 
   describe 'PUT /api/v1/questions/:id/' do
-    let!(:question) { create(:question) }
-    let(:api_path)       { api_v1_question_path(question) }
-    let(:headers)        { { "ACCEPT" => 'application/json' } }
+    let!(:question)      { create(:question) }
+    let(:api_path)            { api_v1_question_path(question) }
+    let(:headers)             { { "ACCEPT" => 'application/json' } }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :put }
     end
 
-    context 'create question with valid attributes' do
-      before { put api_path, params: { access_token: access_token.token,
-                                       question: { body: 'New question body' } },
-                    headers: headers  }
+    context 'is author' do
+      let(:author_access_token) { create(:access_token, resource_owner_id: question.author.id) }
 
-      it_behaves_like 'API response status 200'
+      context 'create question with valid attributes' do
+        before { put api_path, params: { access_token: author_access_token.token,
+                                         question: { body: 'New question body' } },
+                     headers: headers  }
 
-      it 'return question public field with valid attribute' do
-        %w[id title body created_at updated_at files links comments].each do |attr|
-          expect(json['question'].has_key?(attr)).to be_truthy
+        it_behaves_like 'API response status 200'
+
+        it 'return question public field with valid attribute' do
+          %w[id title body created_at updated_at files links comments].each do |attr|
+            expect(json['question'].has_key?(attr)).to be_truthy
+          end
+        end
+
+        it 'edit question title' do
+          expect(json['question']['body']).to eq 'New question body'
         end
       end
 
-      it 'edit question title' do
-        expect(json['question']['body']).to eq 'New question body'
+      context 'create question with invalid attributes' do
+        before { put api_path, params: { access_token: author_access_token.token,
+                                         question: { body: '' } },
+                     headers: headers  }
+
+        it 'return status' do
+          expect(response).to be_unprocessable
+        end
+
+        it 'question body not change' do
+          question.reload
+          expect(question.body).to eq 'MyText'
+        end
+      end
+    end
+
+    context 'unable edit foreign question' do
+      before { put api_path, params: { access_token: access_token.token,
+                                       question: { body: 'Edit' } },
+                   headers: headers  }
+
+      it 'question body not change' do
+        expect(response).to be_forbidden
       end
     end
   end

@@ -117,26 +117,39 @@ describe 'Profile API', type: :request do
     it_behaves_like 'API Authorizable' do
       let(:method) { :put }
     end
+    context 'is author' do
+      context 'create question with valid attributes' do
+        let(:author_access_token) { create(:access_token, resource_owner_id: answer.author.id) }
 
-    context 'create question with valid attributes' do
-      before { put api_path, params: { access_token: access_token.token,
-                                       answer: { body: 'New answer body' } },
-                   headers: headers  }
+        before { put api_path, params: { access_token: author_access_token.token,
+                                         answer: { body: 'New answer body' } },
+                     headers: headers  }
 
-      it_behaves_like 'API response status 200'
+        it_behaves_like 'API response status 200'
 
-      it 'return question public field with valid attribute' do
-        %w[id body created_at updated_at files links comments].each do |attr|
-          expect(json['answer'].has_key?(attr)).to be_truthy
+        it 'return question public field with valid attribute' do
+          %w[id body created_at updated_at files links comments].each do |attr|
+            expect(json['answer'].has_key?(attr)).to be_truthy
+          end
+        end
+
+        it 'edit question title' do
+          expect(json['answer']['body']).to eq 'New answer body'
         end
       end
+    end
 
-      it 'edit question title' do
-        expect(json['answer']['body']).to eq 'New answer body'
+    context 'unable edit foreign answer' do
+      before { put api_path, params: { access_token: access_token.token,
+                                       answer: { body: 'Edit' } },
+                   headers: headers  }
+
+      it 'question body not change' do
+        expect(response).to be_forbidden
       end
     end
-  end
 
+  end
 
   describe 'DELETE /api/v1/answers/:id/' do
     let!(:answer) { create(:answer) }

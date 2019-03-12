@@ -10,6 +10,8 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
+    authorize! :create, Answer
+
     answer = question.answers.build(answer_params)
     answer.author = current_resource_owner
 
@@ -21,6 +23,8 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def update
+    authorize! :update, answer
+
     if answer.update(answer_params)
       render json: answer, status: :ok
     else
