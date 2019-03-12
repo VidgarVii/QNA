@@ -4,9 +4,11 @@ class Question < ApplicationRecord
   include Rateable
   include Commentable
 
-  has_one :honor, dependent: :destroy
+  has_one :honor,     dependent: :destroy
 
-  has_many   :answers, dependent: :destroy
+  has_many :answers,       dependent: :destroy
+  has_many :subscribed,    class_name: 'Subscription', dependent: :destroy
+
 
   belongs_to :author, class_name: 'User', foreign_key: 'user_id'
 

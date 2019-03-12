@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Answer, type: :model do
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
-  it { should belong_to(:question).counter_cache(true) }
+  it { should belong_to(:question).counter_cache(true).touch }
   it { should belong_to :author }
 
   it { should validate_presence_of :body }
@@ -35,13 +35,4 @@ RSpec.describe Answer, type: :model do
   end
 
   include_examples "ratings", :answer
-
-  describe 'notification for new answer' do
-    let(:answer) { build(:answer) }
-
-    it 'call NotificationAnsweredJob' do
-      expect(NotificationAnsweredJob).to receive(:perform_later).with(answer.question.author)
-      answer.save!
-    end
-  end
 end
