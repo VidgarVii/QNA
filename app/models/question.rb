@@ -16,13 +16,13 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  after_create :calculate_reputation
+  after_create :subscribe_to_author
 
   scope :sort_by_update, -> { order(:updated_at) }
 
   private
 
-  def calculate_reputation
-    ReputationJob.perform_later(self)
+  def subscribe_to_author
+    subscribed.create(user: author)
   end
 end
