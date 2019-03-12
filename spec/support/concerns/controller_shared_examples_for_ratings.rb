@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'ratings_controller' do |target|
+shared_examples 'ratings_controller' do |target|
 
   let(:user) { create(:user) }
   let(:model) { create(target) }
