@@ -11,10 +11,4 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization unless :devise_controller?
-
-  private
-
-  def current_ability
-    @current_ability ||= Ability.new(current_user || current_resource_owner)
-  end
 end

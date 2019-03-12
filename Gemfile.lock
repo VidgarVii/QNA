@@ -100,6 +100,7 @@ GEM
     chromedriver-helper (2.1.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    chronic (0.10.2)
     cocoon (1.2.12)
     coderay (1.1.2)
     coffee-script (2.4.1)
@@ -107,6 +108,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.4)
+    connection_pool (2.2.2)
     crass (1.0.4)
     devise (4.6.1)
       bcrypt (~> 3.0)
@@ -193,6 +195,7 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mustermann (1.0.3)
     nenv (0.3.0)
     nio4r (2.3.1)
     nokogiri (1.10.1)
@@ -232,6 +235,8 @@ GEM
     public_suffix (3.0.3)
     puma (3.12.0)
     rack (2.0.6)
+    rack-protection (2.0.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.2)
@@ -266,6 +271,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
+    redis (4.1.0)
     regexp_parser (1.3.0)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -324,6 +330,16 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (4.0.0.rc1)
       activesupport (>= 4.2.0)
+    sidekiq (5.2.5)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
     skim (0.10.0)
       coffee-script
       coffee-script-source (>= 1.2.0)
@@ -369,6 +385,8 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
+    whenever (0.10.0)
+      chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -414,6 +432,8 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver
   shoulda-matchers (= 4.0.0.rc1)
+  sidekiq
+  sinatra
   skim
   slim-rails
   spring
@@ -422,6 +442,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  whenever
 
 RUBY VERSION
    ruby 2.5.3p105

@@ -29,6 +29,10 @@ gem 'gon'
 gem 'skim'
 gem 'oj'
 
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
+
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-github'
