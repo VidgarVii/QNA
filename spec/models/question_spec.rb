@@ -29,7 +29,13 @@ RSpec.describe Question, type: :model do
     end
   end
 
-  describe '' do
+  describe '#notify_subscribers' do
+    let(:question) { create(:question) }
 
+    it 'call NotifySubscribersJob' do
+      expect(NotifySubscribersJob).to receive(:perform_later).with(question)
+
+      create(:answer, question: question)
+    end
   end
 end
