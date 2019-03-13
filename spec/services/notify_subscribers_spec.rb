@@ -9,11 +9,12 @@ RSpec.describe Services::NotifySubscribers do
     users.each do |user|
       question.subscribed.create!(user: user)
     end
+
+    users.push(question.author)
   end
 
   it 'send mail to all users' do
     users.each do |user|
-      p user.email
       expect(NotifySubscriberMailer).to receive(:send_mail).with(user.email, question.title).and_call_original
     end
 
