@@ -7,7 +7,8 @@ class Question < ApplicationRecord
   has_one :honor,     dependent: :destroy
 
   has_many :answers,       dependent: :destroy
-  has_many :subscribed,    class_name: 'Subscription', dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribers,   through: :subscriptions, source: :user
 
   belongs_to :author, class_name: 'User', foreign_key: 'user_id'
 
@@ -27,6 +28,6 @@ class Question < ApplicationRecord
   end
 
   def subscribe_to_author
-    subscribed.create(user: author)
+    subscriptions.create(user: author)
   end
 end

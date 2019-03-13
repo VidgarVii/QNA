@@ -7,7 +7,7 @@ RSpec.describe Services::NotifySubscribers do
 
   before do
     users.each do |user|
-      question.subscribed.create!(user: user)
+      question.subscriptions.create!(user: user)
     end
 
     users.push(question.author)
