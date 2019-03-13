@@ -85,4 +85,20 @@ RSpec.describe User, type: :model do
       expect(user_valid.email_verified?).to be_truthy
     end
   end
+
+  describe '#subscribed_to?' do
+    let(:user)     { create(:user) }
+    let(:question) { create(:question) }
+
+    it 'false' do
+      expect(user.subscribed_to?(question)).to be_falsey
+    end
+
+    it 'true' do
+      user.subscriptions.create!(question: question)
+
+      expect(user.subscribed_to?(question)).to be_truthy
+    end
+
+  end
 end

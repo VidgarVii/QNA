@@ -9,19 +9,11 @@ class Answer < ApplicationRecord
 
   validates  :body, presence: true
 
-  after_create :send_notification
-
   def make_the_best
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
       question.honor&.grand(author)
     end
-  end
-
-  private
-
-  def send_notification
-    NotificationAnsweredJob.perform_later(self.question.author)
   end
 end

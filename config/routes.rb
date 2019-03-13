@@ -17,8 +17,10 @@ Rails.application.routes.draw do
     resources :comments, only: :create
   end
 
-  resources :honors,      only: :index
-  resources :attachments, only: :destroy
+  resources :honors,        only: :index
+  resources :attachments,   only: :destroy
+  resources :subscriptions, only: %i[destroy create]
+
 
   resources :questions, except: :edit, concerns: %i[ratable commentable] do
     resources :answers, shallow: true, concerns: %i[ratable commentable], only: %i[create update destroy] do
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end

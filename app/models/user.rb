@@ -42,6 +42,10 @@ class User < ApplicationRecord
     !email.match(REGEXP_EMAIL)
   end
 
+  def subscribed_to?(question)
+    !subscriptions.find_by(question: question).nil?
+  end
+
   private
 
   def set_state(rating)

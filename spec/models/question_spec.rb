@@ -28,4 +28,8 @@ RSpec.describe Question, type: :model do
       expect { question.save! }.to change(Subscription, :count).by(1)
     end
   end
+
+  describe '' do
+
+  end
 end

@@ -7,12 +7,6 @@ RSpec.describe SubscriptionsController, type: :controller do
   describe 'POST #create' do
    let(:subscribed) { post :create, params: { subscription: { user: user, question: question } }, format: :js }
 
-   it 'unauthenticated user unable subscribed' do
-     subscribed
-
-     expect(response).to be_forbidden
-   end
-
    before { login(user) }
 
    it 'status successful' do
@@ -33,12 +27,19 @@ RSpec.describe SubscriptionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let!(:subscription) { create(:subscription, user: user, question: question) }
     let(:unsubscribed) { delete :destroy, params: { id: subscription }, format: :js }
 
     before { login(user) }
 
     it 'unsubscribed change Subscription count'do
       expect { unsubscribed }.to change(Subscription, :count).by(-1)
+    end
+
+    it 'render template' do
+      unsubscribed
+
+      expect(response).to render_template :destroy
     end
   end
 end

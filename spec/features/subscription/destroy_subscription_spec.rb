@@ -10,8 +10,12 @@ feature 'Authenticated user can cancel subscription' do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Unsubscribe'
-    sleep 1
-    expect(page).to_not have_content 'Described to the update issue'
+    within '.subscription' do
+      accept_confirm do
+        click_on 'Unsubscribe'
+      end
+      sleep 1
+      expect(page).to have_content 'Subscribe to the update issue'
+    end
   end
 end
