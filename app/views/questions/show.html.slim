@@ -28,6 +28,8 @@
     = render question.rating, resource: question
 
   = render 'comments/form', resource: question
+  .subscription
+    = render 'subscriptions/subscription', resource: question if can?(:create, Subscription)
 
 hr
 h3 Answers

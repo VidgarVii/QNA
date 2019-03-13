@@ -58,7 +58,11 @@ class QuestionsController < ApplicationController
 
   private
 
-  helper_method :question
+  helper_method :question, :subscription
+
+  def subscription
+    @subscription ||= Subscription.find_by(question: question, user: current_user)
+  end
 
   def publish_question
     return if question.errors.any?

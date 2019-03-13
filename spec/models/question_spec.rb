@@ -6,6 +6,7 @@ RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:subscribed).dependent(:destroy) }
   it { should belong_to :author }
 
   it { should validate_presence_of :title }
@@ -20,12 +21,21 @@ RSpec.describe Question, type: :model do
 
   include_examples "ratings", :question
 
-  describe 'reputation' do
+  describe 'create subscribed after create question' do
     let(:question) { build(:question) }
 
-    it 'calls ReputationJob' do
-      expect(ReputationJob).to receive(:perform_later).with(question)
-      question.save!
+    it 'subscribed author' do
+      expect { question.save! }.to change(Subscription, :count).by(1)
+    end
+  end
+
+  describe '#notify_subscribers' do
+    let(:question) { create(:question) }
+
+    it 'call NotifySubscribersJob' do
+      expect(NotifySubscribersJob).to receive(:perform_later).with(question)
+
+      create(:answer, question: question)
     end
   end
 end

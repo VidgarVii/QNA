@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DailyDigestJob, type: :job do
+describe DailyDigestJob, type: :job do
   let(:service) { double('Services::DailyDigest') }
 
   before do

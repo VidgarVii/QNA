@@ -4,9 +4,10 @@ class Question < ApplicationRecord
   include Rateable
   include Commentable
 
-  has_one :honor, dependent: :destroy
+  has_one :honor,     dependent: :destroy
 
-  has_many   :answers, dependent: :destroy
+  has_many :answers,       dependent: :destroy
+  has_many :subscribed,    class_name: 'Subscription', dependent: :destroy
 
   belongs_to :author, class_name: 'User', foreign_key: 'user_id'
 
@@ -14,13 +15,18 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  after_create :calculate_reputation
+  after_create :subscribe_to_author
+  after_touch  :notify_subscribers
 
-  scope :sort_by_update, -> { order(:updated_at) }
+  scope :sort_by_update, -> { order(updated_at: :desc) }
 
   private
 
-  def calculate_reputation
-    ReputationJob.perform_later(self)
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self)
+  end
+
+  def subscribe_to_author
+    subscribed.create(user: author)
   end
 end

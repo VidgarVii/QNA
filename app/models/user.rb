@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :honors
   has_many :votes,             dependent: :destroy
   has_many :authorizations,    dependent: :destroy
+  has_many :subscriptions,     dependent: :destroy
 
   validates :email, format: { without: REGEXP_EMAIL }, on: :update
 
@@ -39,6 +40,10 @@ class User < ApplicationRecord
 
   def email_verified?
     !email.match(REGEXP_EMAIL)
+  end
+
+  def subscribed_to?(question)
+    !subscriptions.find_by(question: question).nil?
   end
 
   private

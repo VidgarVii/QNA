@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many :honors }
   it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should_not allow_value('asd@change.me').for(:email).on(:update) }
   it { should validate_presence_of :password }
@@ -83,5 +84,21 @@ RSpec.describe User, type: :model do
     it 'true' do
       expect(user_valid.email_verified?).to be_truthy
     end
+  end
+
+  describe '#subscribed_to?' do
+    let(:user)     { create(:user) }
+    let(:question) { create(:question) }
+
+    it 'false' do
+      expect(user.subscribed_to?(question)).to be_falsey
+    end
+
+    it 'true' do
+      user.subscriptions.create!(question: question)
+
+      expect(user.subscribed_to?(question)).to be_truthy
+    end
+
   end
 end
