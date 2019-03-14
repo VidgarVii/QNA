@@ -4,10 +4,12 @@ class Answer < ApplicationRecord
   include Rateable
   include Commentable
 
-  belongs_to :question, counter_cache: true, touch: true
+  belongs_to :question, counter_cache: true
   belongs_to :author,   class_name: 'User', foreign_key: 'user_id'
 
   validates  :body, presence: true
+
+  after_create :notify_subscribers
 
   def make_the_best
     transaction do
@@ -15,5 +17,11 @@ class Answer < ApplicationRecord
       update!(best: true)
       question.honor&.grand(author)
     end
+  end
+
+  private
+
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self.question)
   end
 end

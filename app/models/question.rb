@@ -17,15 +17,8 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   after_create :subscribe_to_author
-  after_touch  :notify_subscribers
 
   scope :sort_by_update, -> { order(updated_at: :desc) }
-
-  private
-
-  def notify_subscribers
-    NotifySubscribersJob.perform_later(self)
-  end
 
   def subscribe_to_author
     subscriptions.create(user: author)

@@ -4,8 +4,7 @@ class SubscriptionsController < ApplicationController
   def create
     authorize! :create, Subscription
 
-    @subscription = current_user.subscriptions.build(subscription_params)
-    @subscription.save
+    @subscription = current_user.subscriptions.create(question_id: params[:question_id])
   end
 
   def destroy
@@ -22,11 +21,8 @@ class SubscriptionsController < ApplicationController
     @question ||= subscription.question
   end
 
-  def subscription_params
-    params.permit(:question_id)
-  end
-
   def subscription
     @subscription ||= Subscription.find(params[:id])
   end
 end
+

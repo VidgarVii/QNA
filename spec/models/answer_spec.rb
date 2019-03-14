@@ -35,4 +35,15 @@ RSpec.describe Answer, type: :model do
   end
 
   include_examples "ratings", :answer
+
+  describe '#notify_subscribers' do
+    let(:question) { create(:question) }
+
+    it 'call NotifySubscribersJob' do
+      expect(NotifySubscribersJob).to receive(:perform_later).with(question)
+
+      create(:answer, question: question)
+    end
+  end
 end
+

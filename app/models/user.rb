@@ -43,7 +43,7 @@ class User < ApplicationRecord
   end
 
   def subscribed_to?(question)
-    !subscriptions.find_by(question: question).nil?
+    subscriptions.find_by(question: question).exists?
   end
 
   private
