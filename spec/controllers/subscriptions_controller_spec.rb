@@ -5,7 +5,7 @@ RSpec.describe SubscriptionsController, type: :controller do
   let(:question) { create(:question) }
 
   describe 'POST #create' do
-   let(:subscribed) { post :create, params: { subscription: { user: user, question: question } }, format: :js }
+   let(:subscribed) { post :create, params: { question_id: question }, format: :js }
 
    before { login(user) }
 
@@ -16,7 +16,7 @@ RSpec.describe SubscriptionsController, type: :controller do
    end
 
    it 'subscribed change Subscription count'do
-     expect { subscribed }.to change(Subscription, :count).by(1)
+     expect { subscribed }.to change(Subscription, :count).by(2)
    end
 
     it 'render template' do

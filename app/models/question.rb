@@ -19,6 +19,8 @@ class Question < ApplicationRecord
   after_create :subscribe_to_author
 
   scope :sort_by_update, -> { order(updated_at: :desc) }
+  scope :sort_by_create, -> { order(:created_at) }
+  scope :digest,         -> { where('created_at > ?', 1.day.ago) }
 
   def subscribe_to_author
     subscriptions.create(user: author)

@@ -14,9 +14,10 @@ class QuestionsController < ApplicationController
   def show
     authorize! :show, question
 
-    @answers = question.answers.includes(:links).with_attached_files.order(best: :desc)
-    @answer  = Answer.new
-    @link    = @answer.links.build
+    @answers      = question.answers.includes(:links).with_attached_files.order(best: :desc)
+    @answer       = Answer.new
+    @link         = @answer.links.build
+    @subscription = Subscription.find_by(question: question, user: current_user)
 
     gon.push question_id: question.id
     gon.push user_id: current_user&.id
@@ -59,10 +60,6 @@ class QuestionsController < ApplicationController
   private
 
   helper_method :question, :subscription
-
-  def subscription
-    @subscription ||= Subscription.find_by(question: question, user: current_user)
-  end
 
   def publish_question
     return if question.errors.any?

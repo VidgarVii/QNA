@@ -41,7 +41,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   private
 
   def questions
-    @questions ||= Question.all.sort_by_update
+    @questions ||= Question.all.sort_by_create
   end
 
   def question
