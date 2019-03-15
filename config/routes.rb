@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   resources :honors,        only: :index
   resources :attachments,   only: :destroy
  
-  resources :questions, except: :edit, concerns: %i[ratable commentable] do
-    resources :subscriptions, only: %i[destroy create], shallow: true
-    resources :answers, shallow: true, concerns: %i[ratable commentable], only: %i[create update destroy] do
+  resources :questions, except: :edit, concerns: %i[ratable commentable], shallow: true do
+    resources :subscriptions, only: %i[destroy create]
+    resources :answers, concerns: %i[ratable commentable], only: %i[create update destroy] do
       patch 'set_best', on: :member
     end
   end
