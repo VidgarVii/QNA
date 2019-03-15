@@ -28,6 +28,8 @@ gem 'active_storage_validations'
 gem 'gon'
 gem 'skim'
 gem 'oj'
+gem 'mysql2',          '~> 0.3',    :platform => :ruby
+gem 'thinking-sphinx', '~> 4.2'
 
 gem 'sidekiq'
 gem 'sinatra', require: false

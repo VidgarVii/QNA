@@ -33,3 +33,6 @@
 /config/credentials.yml.enc
 
 /.idea/**/*
+
+/config/*.sphinx.conf
+/db/sphinx
