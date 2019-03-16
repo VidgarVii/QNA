@@ -30,6 +30,7 @@ gem 'skim'
 gem 'oj'
 gem 'mysql2',          '~> 0.3',    :platform => :ruby
 gem 'thinking-sphinx', '~> 4.2'
+gem 'will_paginate', '~> 3.1.0'
 
 gem 'sidekiq'
 gem 'sinatra', require: false
@@ -90,7 +91,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
-
+  gem 'database_cleaner'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '4.0.0.rc1'
