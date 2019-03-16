@@ -2,8 +2,8 @@ require 'sphinx_helper'
 
 feature 'User can search question/answer/comment/all' do
   given!(:question) { create(:question, body: 'some text for question') }
-  given!(:answer) { create(:answer, body: 'some text for answer', question: question) }
-  given!(:comment) { create(:comment, body: 'some text for comment', commentable: question) }
+  given!(:answer)   { create(:answer,   body: 'some text for answer',  question: question) }
+  given!(:comment)  { create(:comment,  body: 'some text for comment', commentable: question) }
 
   background do
     visit root_path
@@ -20,10 +20,12 @@ feature 'User can search question/answer/comment/all' do
     end
   end
 
-  scenario 'Search by question', sphinx: true do
+  scenario 'Search by question', js: true, sphinx: true do
     fill_in 'Search', with: 'question'
     check 'question'
     click_on 'Find'
+
+    sleep 2
 
     within '.result-search' do
       expect(page).to have_content 'some text for question'
