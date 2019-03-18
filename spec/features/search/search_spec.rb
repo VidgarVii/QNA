@@ -12,12 +12,17 @@ feature 'User can search question/answer/comment/all', sphinx: true do
   scenario 'Search by all models', js: true, sphinx: true do
     ThinkingSphinx::Test.run do
       click_on 'Find'
+      p question
+      p answer
+      p comment
 
       within '.result-search' do
         expect(page).to have_content 'some text for question'
         expect(page).to have_content 'some text for answer'
         expect(page).to have_content 'some text for comment'
-        expect(page).to have_content 'test1@mail.ru'
+        expect(page).to have_content question.author.email
+        expect(page).to have_content answer.author.email
+        expect(page).to have_content comment.author.email
       end
     end
   end
