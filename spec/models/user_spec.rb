@@ -13,6 +13,8 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of :password }
   it { should validate_presence_of :password }
 
+  it_behaves_like 'sphinx', User
+
   describe '#author_of?',
           'Ask question & answer' do
     let(:author) { create(:user) }

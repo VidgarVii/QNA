@@ -1,0 +1,20 @@
+= form_with url: search_path, class: 'search', method: :get, local: true do |f|
+  .field
+    = f.label :search
+    = f.text_field :q, id: 'search'
+  .checks
+    .check
+      = f.label :question
+      = f.check_box :question, checked: params['question'] == '1'
+    .check
+      = f.label :answer
+      = f.check_box :answer, checked: params['answer'] == '1'
+    .check
+      = f.label :comment
+      = f.check_box :comment, checked: params['comment'] == '1'
+    .check
+      = f.label :user
+      = f.check_box :user, checked: params['user'] == '1'
+
+  = f.submit 'Find'
+

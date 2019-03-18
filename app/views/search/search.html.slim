@@ -1,0 +1,11 @@
+h1 Search
+
+.result-search
+  ul
+    - @result.each do |resource|
+      li[class="search-#{resource.class.name.downcase}"]
+        p = resource.title if resource.respond_to?(:title)
+        p = resource.body if resource.respond_to?(:body)
+        p = resource.email if resource.respond_to?(:email)
+
+  = will_paginate @result

@@ -34,7 +34,8 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  include_examples "ratings", :answer
+  it_behaves_like "ratings", :answer
+  it_behaves_like 'sphinx', Answer
 
   describe '#notify_subscribers' do
     let(:question) { create(:question) }
