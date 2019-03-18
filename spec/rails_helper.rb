@@ -49,7 +49,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -78,6 +78,43 @@ RSpec.configure do |config|
   ActionDispatch::IntegrationTest
   Capybara.server_port = 3001
   Capybara.app_host = 'http://localhost:3001'
+
+  # DatabaseCleaner settings
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+    # Ensure sphinx directories exist for the test environment
+    ThinkingSphinx::Test.init
+    # Configure and start Sphinx, and automatically stop Sphinx at the end of the test suite.
+    ThinkingSphinx::Test.start_with_autostop
+  end
+
+  config.before(:suite, sphinx: true) do
+    ThinkingSphinx::Test.init
+    # Configure and start Sphinx, and automatically stop Sphinx at the end of the test suite.
+    ThinkingSphinx::Test.start_with_autostop
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each, sphinx: true) do
+    # Index data when running an acceptance spec.
+    ThinkingSphinx::Test.index
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
 
 FactoryBot::SyntaxRunner.class_eval do
@@ -92,3 +129,7 @@ Shoulda::Matchers.configure do |config|
 end
 
 OmniAuth.config.test_mode = true
+
+
+
+

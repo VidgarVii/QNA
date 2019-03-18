@@ -1,6 +1,6 @@
-require 'sphinx_helper'
+require 'rails_helper'
 
-feature 'User can search question/answer/comment/all' do
+feature 'User can search question/answer/comment/all', sphinx: true do
   given!(:question) { create(:question, body: 'some text for question') }
   given!(:answer)   { create(:answer,   body: 'some text for answer',  question: question) }
   given!(:comment)  { create(:comment,  body: 'some text for comment', commentable: question) }
@@ -9,54 +9,62 @@ feature 'User can search question/answer/comment/all' do
     visit root_path
   end
 
-  scenario 'Search by all models', sphinx: true do
-  click_on 'Find'
+  scenario 'Search by all models', js: true, sphinx: true do
+    ThinkingSphinx::Test.run do
+      click_on 'Find'
 
-  within '.result-search' do
-      expect(page).to have_content 'some text for question'
-      expect(page).to have_content 'some text for answer'
-      expect(page).to have_content 'some text for comment'
-      expect(page).to have_content 'test1@mail.ru'
+      within '.result-search' do
+        expect(page).to have_content 'some text for question'
+        expect(page).to have_content 'some text for answer'
+        expect(page).to have_content 'some text for comment'
+        expect(page).to have_content 'test1@mail.ru'
+      end
     end
   end
 
   scenario 'Search by question', js: true, sphinx: true do
-    fill_in 'Search', with: 'question'
-    check 'question'
-    click_on 'Find'
+    ThinkingSphinx::Test.run do
+      fill_in 'Search', with: 'question'
+      check 'question'
+      click_on 'Find'
 
-    sleep 2
+      sleep 2
 
-    within '.result-search' do
-      expect(page).to have_content 'some text for question'
+      within '.result-search' do
+        expect(page).to have_content 'some text for question'
+      end
     end
   end
 
-  scenario 'Search by answer', sphinx: true do
-    fill_in 'Search', with: 'answer'
-    check 'answer'
-    click_on 'Find'
+  scenario 'Search by answer', js: true, sphinx: true do
+    ThinkingSphinx::Test.run do
+      fill_in 'Search', with: 'answer'
+      check 'answer'
+      click_on 'Find'
 
-    within '.result-search' do
-      expect(page).to have_content 'some text for answer'
+      within '.result-search' do
+        expect(page).to have_content 'some text for answer'
+      end
     end
   end
 
-  scenario 'Search by comment', sphinx: true do
-    fill_in 'Search', with: 'comment'
-    check 'comment'
-    click_on 'Find'
+  scenario 'Search by comment', js: true, sphinx: true do
+    ThinkingSphinx::Test.run do
+      fill_in 'Search', with: 'comment'
+      check 'comment'
+      click_on 'Find'
 
-    within '.result-search' do
-      expect(page).to have_content 'some text for comment'
+      within '.result-search' do
+        expect(page).to have_content 'some text for comment'
+      end
     end
   end
 
-  scenario 'No result', sphinx: true do
-    fill_in 'Search', with: 'qwerty'
-    click_on 'Find'
+  scenario 'No result', js: true, sphinx: true do
+    ThinkingSphinx::Test.run do
+      fill_in 'Search', with: 'qwerty'
+      click_on 'Find'
 
-    within '.result-search' do
       expect(page).to_not have_content 'qwerty'
     end
   end

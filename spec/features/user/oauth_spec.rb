@@ -5,21 +5,21 @@ feature 'User can sign IN/UP with Socials  account' do
   context ' Sign up' do
     before { visit new_user_registration_path }
 
-    scenario 'VK', js: true do
+    scenario 'VK' do
       click_on "Sign in with Vkontakte"
 
       expect(page).to have_content'Hello mail@mail.ru'
       expect(page).to have_content'Exit'
     end
 
-    scenario 'Github', js: true do
+    scenario 'Github' do
       click_on "Sign in with GitHub"
 
       expect(page).to have_content'Hello mail@mail.ru'
       expect(page).to have_content'Exit'
     end
 
-    scenario 'Instagram', js: true do
+    scenario 'Instagram' do
       clear_emails
 
       click_on "Sign in with Instagram"
@@ -40,7 +40,7 @@ feature 'User can sign IN/UP with Socials  account' do
 
     before { visit new_user_session_path }
 
-    scenario 'VK', js: true do
+    scenario 'VK' do
 
       click_on "Sign in with Vkontakte"
 
@@ -48,14 +48,14 @@ feature 'User can sign IN/UP with Socials  account' do
       expect(page).to have_content'Successfully authenticated from Vkontakte'
     end
 
-    scenario 'GitHub', js: true do
+    scenario 'GitHub' do
       click_on "Sign in with GitHub"
 
       expect(page).to have_content'Hello mail@mail.ru'
       expect(page).to have_content'Exit'
     end
 
-    scenario 'Instagram', js: true do
+    scenario 'Instagram' do
       clear_emails
 
       click_on "Sign in with Instagram"
