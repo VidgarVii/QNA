@@ -9,4 +9,4 @@
     = f.submit
 
   .comments-list[id="comments_list-#{resource.id}"]
-    = render resource.comments
+    = render resource.comments, cahed: true

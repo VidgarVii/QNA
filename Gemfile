@@ -36,6 +36,7 @@ gem 'unicorn'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'redis-rails'
 
 gem 'devise'
 gem 'omniauth'

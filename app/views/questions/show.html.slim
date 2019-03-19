@@ -1,41 +1,42 @@
-.question[data-id="#{question.id}"]
-  .body
-    h2 = question.title
+- cache question do
+  .question[data-id="#{question.id}"]
+    .body
+      h2 = question.title
 
-    - if question.honor
-      = link_to Honor, '#', id: 'show_honor'
-      .honor_block.hidden
-        = question.honor.name
-        = image_tag url_for(question.honor.image)
+      - if question.honor
+        = link_to Honor, '#', id: 'show_honor'
+        .honor_block.hidden
+          = question.honor.name
+          = image_tag url_for(question.honor.image)
 
-    p.author author: #{question.author.email}
-    p.question_body = question.body
-    p.links Links
-    ul.links
-      = render question.links
+      p.author author: #{question.author.email}
+      p.question_body = question.body
+      p.links Links
+      ul.links
+        = render question.links
 
-    p.links Files
-    ul.attachments[id="quest_attached-#{question.id}"]
-      - if question.files.attached?
-        = render partial: 'shared/attachment', collection: question.files
+      p.links Files
+      ul.attachments[id="quest_attached-#{question.id}"]
+        - if question.files.attached?
+          = render partial: 'shared/attachment', collection: question.files
 
-    = delete_btn(question)
-    - if can?(:update, question)
-      = link_to 'Edit question', '#', class: 'edit_question_link btn btn-info'
-      div[id="js_quest_form-#{question.id}"]
-        = render 'edit_form', question: question
-  .vote[id="question-#{question.id}"]
-    = render question.rating, resource: question
+      = delete_btn(question)
+      - if can?(:update, question)
+        = link_to 'Edit question', '#', class: 'edit_question_link btn btn-info'
+        div[id="js_quest_form-#{question.id}"]
+          = render 'edit_form', question: question
+    .vote[id="question-#{question.id}"]
+      = render question.rating, resource: question
 
-  = render 'comments/form', resource: question
-  .subscription
-    = render 'subscriptions/subscription', resource: question if can?(:create, Subscription)
+    = render 'comments/form', resource: question
+    .subscription
+      = render 'subscriptions/subscription', resource: question if can?(:create, Subscription)
 
-hr
-h3 Answers
+  hr
+  h3 Answers
 
-ul.answers_list
-  = render @answers
+  ul.answers_list
+    = render @answers
 
 hr
 = render 'answers/form'
