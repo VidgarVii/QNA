@@ -32,6 +32,3 @@ api/v1/answers/...
 ## ActionCable
 
 Обновление ответов происходит автоматически, через websocket. Обновлять страницу не обязательно.
-
-
-[DRAW](https://www.draw.io/#G15UFYRReuzyJAUVjjYvvJV1mvKlHQPFbr)
